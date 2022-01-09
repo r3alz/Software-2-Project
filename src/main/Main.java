@@ -15,8 +15,8 @@ public class Main extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception{
         Parent root = FXMLLoader.load(getClass().getResource("/view/Login.fxml"));
-        primaryStage.setTitle("Hello World");
-        primaryStage.setScene(new Scene(root, 300, 275));
+        primaryStage.setTitle("Login Form");
+        primaryStage.setScene(new Scene(root, 600, 400));
         primaryStage.show();
     }
 
@@ -24,9 +24,5 @@ public class Main extends Application {
     public static void main(String[] args) {
         JDBC.makeConnection();
         launch(args);
-        ObservableList<User> userList = UserDAOImpl.getAllUsers();
-        for(User u: userList) {
-            System.out.println("User ID: " + u.getId() + " Username: " + u.getUsername());
-        }
     }
 }
