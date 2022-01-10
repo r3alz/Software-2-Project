@@ -20,17 +20,25 @@ public class LoginController implements Initializable {
     public TextField Password;
     public Button SignIn;
     public Label TimeZone;
+    public Label UserIDLabel;
+    public Label PasswordLabel;
+    public Label AppointmentScheduler;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         ZoneId zone = ZoneId.systemDefault();
-        TimeZone.setText("Time Zone: " + String.valueOf(zone));
-        String lang = "en";
-        String country = "US";
-        Locale l = new Locale(lang, country);
-        ResourceBundle r = ResourceBundle.getBundle("bundle",l);
-        String str = r.getString("test");
-        System.out.println(str);
+        try {
+            ResourceBundle rb = ResourceBundle.getBundle("Nat", Locale.getDefault());
+            if(Locale.getDefault().getLanguage().equals("en") || Locale.getDefault().getLanguage().equals("fr")) {
+                AppointmentScheduler.setText(rb.getString("appointmentscheduler"));
+                UserIDLabel.setText(rb.getString("userid"));
+                PasswordLabel.setText(rb.getString("password"));
+                SignIn.setText(rb.getString("signin"));
+                TimeZone.setText(rb.getString("timezone") + ":" + " " + zone);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     public void onSignIn(ActionEvent actionEvent) {
