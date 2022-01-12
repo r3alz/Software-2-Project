@@ -3,6 +3,7 @@ package controller;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
@@ -48,9 +49,19 @@ public class LoginController implements Initializable {
         for(User u: userList) {
             if(u.getId().equals(userID) && u.getPassword().equals(password)) {
                 System.out.println("login successful");
+                return;
             }
             else {
-                System.out.println("not successful");
+                try {
+                    ResourceBundle rb = ResourceBundle.getBundle("Nat", Locale.getDefault());
+                    if(Locale.getDefault().getLanguage().equals("en") || Locale.getDefault().getLanguage().equals("fr")) {
+                        Alert alert = new Alert(Alert.AlertType.ERROR, rb.getString("alert"));
+                        alert.showAndWait();
+                        return;
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
             }
         }
     }
