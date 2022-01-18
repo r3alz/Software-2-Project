@@ -1,14 +1,17 @@
 package main;
 
 import javafx.application.Application;
+import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import DAO.JDBC;
-import model.User;
-import model.UserDAOImpl;
+import model.*;
+
+import java.sql.Date;
+import java.sql.SQLException;
 
 public class Main extends Application {
 
@@ -21,8 +24,9 @@ public class Main extends Application {
     }
 
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws SQLException {
         JDBC.makeConnection();
+        CustomerDAOImpl.addCustomer(10,"test", 10, "test", "test", "test", Date.valueOf("2019-01-05"), "test", Date.valueOf("2019-01-05"), "test");
         launch(args);
     }
 }

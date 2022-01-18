@@ -4,16 +4,14 @@
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.layout.AnchorPane?>
 
-
 <AnchorPane prefHeight="600.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.InitialController">
    <children>
-      <TableView layoutX="14.0" layoutY="69.0" prefHeight="200.0" prefWidth="800.0">
+      <TableView fx:id="AppointmentTable" layoutX="14.0" layoutY="75.0" prefHeight="200.0" prefWidth="800.0">
         <columns>
           <TableColumn fx:id="AppointmentID" prefWidth="75.0" text="Appointment ID" />
           <TableColumn fx:id="Title" prefWidth="75.0" text="Title" />
             <TableColumn fx:id="Description" prefWidth="75.0" text="Description" />
             <TableColumn fx:id="Location" prefWidth="75.0" text="Location" />
-            <TableColumn fx:id="Contact" prefWidth="75.0" text="Contact" />
             <TableColumn fx:id="Type" prefWidth="75.0" text="Type" />
             <TableColumn fx:id="StartDateTime" prefWidth="75.0" text="Start Date &amp; Time" />
             <TableColumn fx:id="EndDateTime" prefWidth="75.0" text="End Date &amp; Time" />
