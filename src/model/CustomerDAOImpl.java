@@ -58,6 +58,27 @@ public class CustomerDAOImpl {
         ps.setDate(8, lastUpdate);
         ps.setString(9, lastUpdatedBy);
         ps.executeUpdate();
+    }
 
+    public static void deleteCustomer(int customerID) throws SQLException {
+        String sql = "DELETE FROM customers WHERE Customer_ID = " + customerID;
+        PreparedStatement ps = JDBC.getConnection().prepareStatement(sql);
+        ps.executeUpdate();
+    }
+
+    public static void updateCustomer(String customerName, String address, String postalCode, String phone, Date createDate, String createdBy, Date lastUpdate, String lastUpdatedBy, int divisionID) throws SQLException {
+        int cID = 10;
+        String sql = "Update customers SET Customer_Name = ?,Address = ?,Postal_Code = ?, Phone = ?, Create_Date = ?, Created_By = ?, Last_Update = ?, Last_Updated_By = ?, Division_ID = ? WHERE Customer_ID = " + cID;
+        PreparedStatement ps = JDBC.getConnection().prepareStatement(sql);
+        ps.setString(1, customerName);
+        ps.setString(2, address);
+        ps.setString(3, postalCode);
+        ps.setString(4, phone);
+        ps.setDate(5, createDate);
+        ps.setString(6, createdBy);
+        ps.setDate(7, lastUpdate);
+        ps.setString(8, lastUpdatedBy);
+        ps.setInt(9, divisionID);
+        ps.executeUpdate();
     }
 }
