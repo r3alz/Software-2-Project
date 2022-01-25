@@ -8,8 +8,12 @@ import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.LocalDateTime;
 
 public class CustomerDAOImpl {
+
+    private static int currentCID = getAllCustomers().size();
+
     public static ObservableList<Customer> getAllCustomers() {
 
         ObservableList<Customer> cList = FXCollections.observableArrayList();
@@ -44,7 +48,7 @@ public class CustomerDAOImpl {
         return cList;
     }
 
-    public static void addCustomer(int customerID, String customerName, int divisionID, String address, String postalCode, String phone, Date createDate, String createdBy, Date lastUpdate, String lastUpdatedBy) throws SQLException {
+    public static void addCustomer(int customerID, String customerName, int divisionID, String address, String postalCode, String phone, LocalDateTime createDate, String createdBy, LocalDateTime lastUpdate, String lastUpdatedBy) throws SQLException {
         String sql = "INSERT INTO `customers` VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
         PreparedStatement ps = JDBC.getConnection().prepareStatement(sql);
         ps.setInt(1, customerID);
@@ -53,9 +57,9 @@ public class CustomerDAOImpl {
         ps.setString(3, address);
         ps.setString(4, postalCode);
         ps.setString(5, phone);
-        ps.setDate(6, createDate);
+        ps.setObject(6, createDate);
         ps.setString(7, createdBy);
-        ps.setDate(8, lastUpdate);
+        ps.setObject(8, lastUpdate);
         ps.setString(9, lastUpdatedBy);
         ps.executeUpdate();
     }
@@ -80,5 +84,13 @@ public class CustomerDAOImpl {
         ps.setString(8, lastUpdatedBy);
         ps.setInt(9, divisionID);
         ps.executeUpdate();
+    }
+
+    public static void updateCID() {
+        currentCID++;
+    }
+
+    public static int getCID() {
+        return currentCID;
     }
 }

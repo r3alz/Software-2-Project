@@ -23,9 +23,10 @@ public class DivisionDAOImpl {
 
             while(rs.next()) {
                 int divisionID = rs.getInt("Division_ID");
-                String customerName = rs.getString("Division");
+                int countryID = rs.getInt("Country_ID");
+                String division = rs.getString("Division");
 
-                Division d = new Division(divisionID, customerName);
+                Division d = new Division(divisionID, countryID, division);
                 dList.add(d);
             }
 

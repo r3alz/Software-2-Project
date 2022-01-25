@@ -17,7 +17,8 @@ public class Main extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception{
-        Parent root = FXMLLoader.load(getClass().getResource("/view/Login.fxml"));
+        //Parent root = FXMLLoader.load(getClass().getResource("/view/Login.fxml"));
+        Parent root = FXMLLoader.load(getClass().getResource("/view/UpdateCustomer.fxml"));
         primaryStage.setTitle("");
         primaryStage.setScene(new Scene(root, 600, 400));
         primaryStage.show();
@@ -27,7 +28,7 @@ public class Main extends Application {
     public static void main(String[] args) throws SQLException {
         JDBC.makeConnection();
         //CustomerDAOImpl.addCustomer(10,"test", 10, "test", "test", "test", Date.valueOf("2019-01-05"), "test", Date.valueOf("2019-01-05"), "test");
-        CustomerDAOImpl.deleteCustomer(10);
+        //CustomerDAOImpl.deleteCustomer(4);
         //CustomerDAOImpl.updateCustomer("testing1212", "testing", "testing", "testing", Date.valueOf("2020-01-01"), "testing", Date.valueOf("2020-01-01"), "testing", 1);
         launch(args);
     }

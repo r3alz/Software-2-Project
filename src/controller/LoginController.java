@@ -31,6 +31,9 @@ public class LoginController implements Initializable {
     public Label PasswordLabel;
     public Label AppointmentScheduler;
 
+    private int count = 0;
+    private static User loggedInUser = new User(0, null, null);
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         ZoneId zone = ZoneId.systemDefault();
@@ -53,17 +56,19 @@ public class LoginController implements Initializable {
         int userID = Integer.parseInt(UserID.getText());
         String password = Password.getText().trim();
         for(User u: userList) {
+            count += 1;
             if(u.getId().equals(userID) && u.getPassword().equals(password)) {
-                System.out.println("login successful");
+                loggedInUser.setId(u.getId());
+                loggedInUser.setUsername(u.getUsername());
                 //load widget hierarchy of next screen
-                Parent root = FXMLLoader.load(getClass().getResource("/view/Initial.fxml"));
+                Parent root = FXMLLoader.load(getClass().getResource("/view/AddCustomer.fxml"));
 
                 //get the stage from an event's source widget
                 Stage stage = (Stage) ((Node)actionEvent.getSource()).getScene().getWindow();
 
                 //Create the New Scene
                 Scene scene = new Scene(root, 600, 500);
-                stage.setTitle("Modify Part");
+                stage.setTitle("Add Customer");
 
                 //Set the scene on the stage
                 stage.setScene(scene);
@@ -72,7 +77,8 @@ public class LoginController implements Initializable {
                 stage.show();
                 return;
             }
-            else {
+            else if(count == userList.size()) {
+                count = 0;
                 try {
                     ResourceBundle rb = ResourceBundle.getBundle("Nat", Locale.getDefault());
                     if(Locale.getDefault().getLanguage().equals("en") || Locale.getDefault().getLanguage().equals("fr")) {
@@ -85,5 +91,9 @@ public class LoginController implements Initializable {
                 }
             }
         }
+    }
+
+    public static User getLoggedInUser() {
+        return loggedInUser;
     }
 }

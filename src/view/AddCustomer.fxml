@@ -13,15 +13,15 @@
       <TextField fx:id="Address" layoutX="122.0" layoutY="106.0" />
       <Label layoutX="14.0" layoutY="110.0" text="Address" />
       <Label layoutX="14.0" layoutY="152.0" text="Postal Code" />
-      <Label layoutX="14.0" layoutY="192.0" text="Phone Number" />
+      <Label layoutX="11.0" layoutY="283.0" text="Phone Number" />
       <TextField fx:id="PostalCode" layoutX="122.0" layoutY="148.0" />
-      <TextField fx:id="PhoneNumber" layoutX="122.0" layoutY="188.0" />
-      <TextField fx:id="CustomerID" layoutX="122.0" layoutY="25.0" />
+      <TextField fx:id="PhoneNumber" layoutX="122.0" layoutY="279.0" />
+      <TextField fx:id="CustomerID" editable="false" layoutX="122.0" layoutY="25.0" />
       <Label layoutX="14.0" layoutY="29.0" text="Customer ID" />
-      <ComboBox fx:id="State" layoutX="122.0" layoutY="241.0" prefWidth="150.0" />
-      <ComboBox fx:id="Country" layoutX="122.0" layoutY="285.0" prefWidth="150.0" />
-      <Label layoutX="14.0" layoutY="245.0" text="State/Province" />
-      <Label layoutX="17.0" layoutY="289.0" text="Country" />
+      <ComboBox fx:id="StateCombo" layoutX="122.0" layoutY="190.0" prefWidth="150.0" />
+      <ComboBox fx:id="CountryCombo" layoutX="122.0" layoutY="234.0" onAction="#onCountryHandler" prefWidth="150.0" />
+      <Label layoutX="13.0" layoutY="192.0" text="State/Province" />
+      <Label layoutX="14.0" layoutY="238.0" text="Country" />
       <Button fx:id="AddCustomer" layoutX="122.0" layoutY="340.0" mnemonicParsing="false" onAction="#onAddCustomerHandler" text="Add Customer" />
    </children>
 </AnchorPane>

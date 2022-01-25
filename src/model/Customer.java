@@ -14,6 +14,7 @@ public class Customer {
     private Date lastUpdate;
     private String lastUpdatedBy;
 
+
     public Customer(int customerID, String customerName, int divisionID, String address, String postalCode, String phone, Date createDate, String createdBy, Date lastUpdate, String lastUpdatedBy) {
         this.customerID = customerID;
         this.customerName = customerName;
