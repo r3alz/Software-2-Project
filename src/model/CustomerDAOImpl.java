@@ -12,8 +12,6 @@ import java.time.LocalDateTime;
 
 public class CustomerDAOImpl {
 
-    private static int currentCID = getAllCustomers().size();
-
     public static ObservableList<Customer> getAllCustomers() {
 
         ObservableList<Customer> cList = FXCollections.observableArrayList();
@@ -48,19 +46,18 @@ public class CustomerDAOImpl {
         return cList;
     }
 
-    public static void addCustomer(int customerID, String customerName, int divisionID, String address, String postalCode, String phone, LocalDateTime createDate, String createdBy, LocalDateTime lastUpdate, String lastUpdatedBy) throws SQLException {
-        String sql = "INSERT INTO `customers` VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+    public static void addCustomer(String customerName, int divisionID, String address, String postalCode, String phone, LocalDateTime createDate, String createdBy, LocalDateTime lastUpdate, String lastUpdatedBy) throws SQLException {
+        String sql = "INSERT INTO customers (Customer_Name, Address, Postal_Code, Phone, Create_Date, Created_By, Last_Update, Last_Updated_By, Division_ID)  VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
         PreparedStatement ps = JDBC.getConnection().prepareStatement(sql);
-        ps.setInt(1, customerID);
-        ps.setString(2, customerName);
-        ps.setInt(10, divisionID);
-        ps.setString(3, address);
-        ps.setString(4, postalCode);
-        ps.setString(5, phone);
-        ps.setObject(6, createDate);
-        ps.setString(7, createdBy);
-        ps.setObject(8, lastUpdate);
-        ps.setString(9, lastUpdatedBy);
+        ps.setString(1, customerName);
+        ps.setString(2, address);
+        ps.setString(3, postalCode);
+        ps.setString(4, phone);
+        ps.setObject(5, createDate);
+        ps.setString(6, createdBy);
+        ps.setObject(7, lastUpdate);
+        ps.setString(8, lastUpdatedBy);
+        ps.setInt(9, divisionID);
         ps.executeUpdate();
     }
 
@@ -70,27 +67,16 @@ public class CustomerDAOImpl {
         ps.executeUpdate();
     }
 
-    public static void updateCustomer(String customerName, String address, String postalCode, String phone, Date createDate, String createdBy, Date lastUpdate, String lastUpdatedBy, int divisionID) throws SQLException {
-        int cID = 10;
-        String sql = "Update customers SET Customer_Name = ?,Address = ?,Postal_Code = ?, Phone = ?, Create_Date = ?, Created_By = ?, Last_Update = ?, Last_Updated_By = ?, Division_ID = ? WHERE Customer_ID = " + cID;
+    public static void updateCustomer(int customerID, String customerName, String address, String postalCode, String phone, LocalDateTime lastUpdate, String lastUpdatedBy, int divisionID) throws SQLException {
+        String sql = "Update customers SET Customer_Name = ?,Address = ?,Postal_Code = ?, Phone = ?, Last_Update = ?, Last_Updated_By = ?, Division_ID = ? WHERE Customer_ID = " + customerID;
         PreparedStatement ps = JDBC.getConnection().prepareStatement(sql);
         ps.setString(1, customerName);
         ps.setString(2, address);
         ps.setString(3, postalCode);
         ps.setString(4, phone);
-        ps.setDate(5, createDate);
-        ps.setString(6, createdBy);
-        ps.setDate(7, lastUpdate);
-        ps.setString(8, lastUpdatedBy);
-        ps.setInt(9, divisionID);
+        ps.setObject(5, lastUpdate);
+        ps.setString(6, lastUpdatedBy);
+        ps.setInt(7, divisionID);
         ps.executeUpdate();
-    }
-
-    public static void updateCID() {
-        currentCID++;
-    }
-
-    public static int getCID() {
-        return currentCID;
     }
 }

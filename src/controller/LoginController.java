@@ -61,14 +61,14 @@ public class LoginController implements Initializable {
                 loggedInUser.setId(u.getId());
                 loggedInUser.setUsername(u.getUsername());
                 //load widget hierarchy of next screen
-                Parent root = FXMLLoader.load(getClass().getResource("/view/AddCustomer.fxml"));
+                Parent root = FXMLLoader.load(getClass().getResource("/view/CustomerView.fxml"));
 
                 //get the stage from an event's source widget
                 Stage stage = (Stage) ((Node)actionEvent.getSource()).getScene().getWindow();
 
                 //Create the New Scene
                 Scene scene = new Scene(root, 600, 500);
-                stage.setTitle("Add Customer");
+                stage.setTitle("Customer View");
 
                 //Set the scene on the stage
                 stage.setScene(scene);

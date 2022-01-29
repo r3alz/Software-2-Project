@@ -23,5 +23,6 @@
       <Label layoutX="13.0" layoutY="192.0" text="State/Province" />
       <Label layoutX="14.0" layoutY="238.0" text="Country" />
       <Button fx:id="AddCustomer" layoutX="122.0" layoutY="340.0" mnemonicParsing="false" onAction="#onAddCustomerHandler" text="Add Customer" />
+      <Button fx:id="Cancel" layoutX="239.0" layoutY="340.0" mnemonicParsing="false" onAction="#onCancelHandler" text="Cancel" />
    </children>
 </AnchorPane>

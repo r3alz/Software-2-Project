@@ -1,10 +1,10 @@
 package model;
 
 public class Appointment {
-    private int appointmentID, customerID, userID;
+    private int appointmentID, customerID, userID, contactID;
     private String title, description, location, type, startDateTime, endDateTime, createDate, createdBy, lastUpdateTime, lastUpdateBy;
 
-    public Appointment(int appointmentID, int customerID, int userID, String title, String description, String location, String type, String startDateTime, String endDateTime, String createDate, String createdBy, String lastUpdateTime, String lastUpdateBy) {
+    public Appointment(int appointmentID, int customerID, int userID, String title, String description, String location, String type, String startDateTime, String endDateTime, String createDate, String createdBy, String lastUpdateTime, String lastUpdateBy, int contactID) {
         this.appointmentID = appointmentID;
         this.customerID = customerID;
         this.userID = userID;
@@ -18,6 +18,7 @@ public class Appointment {
         this.createdBy = createdBy;
         this.lastUpdateTime = lastUpdateTime;
         this.lastUpdateBy = lastUpdateBy;
+        this.contactID = contactID;
     }
 
     public int getAppointmentID() {
@@ -122,5 +123,13 @@ public class Appointment {
 
     public void setLastUpdateBy(String lastUpdateBy) {
         this.lastUpdateBy = lastUpdateBy;
+    }
+
+    public int getContactID() {
+        return contactID;
+    }
+
+    public void setContactID() {
+        this.contactID = contactID;
     }
 }
