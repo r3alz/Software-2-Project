@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.RadioButton?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.ToggleGroup?>
 <?import javafx.scene.layout.AnchorPane?>
 
 <AnchorPane prefHeight="600.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.AppointmentViewController">
@@ -24,5 +26,12 @@
       <Button fx:id="DeleteAppointment" layoutX="380.0" layoutY="339.0" mnemonicParsing="false" onAction="#onDeleteAppointment" text="Delete Appointment" />
       <Button fx:id="AddAppointment" layoutX="96.0" layoutY="339.0" mnemonicParsing="false" onAction="#onAddAppointment" text="Add Appointment" />
       <Button fx:id="CustomerView" layoutX="615.0" layoutY="420.0" mnemonicParsing="false" onAction="#onCustomerViewHandler" text="View &amp; Update Customers" />
+      <RadioButton fx:id="ViewWeek" layoutX="96.0" layoutY="65.0" mnemonicParsing="false" onAction="#onViewWeekHandler" text="View Week">
+         <toggleGroup>
+            <ToggleGroup fx:id="tgroup" />
+         </toggleGroup>
+      </RadioButton>
+      <RadioButton fx:id="ViewMonth" layoutX="219.0" layoutY="65.0" mnemonicParsing="false" onAction="#onViewMonthHandler" text="View Month" toggleGroup="$tgroup" />
+      <RadioButton fx:id="ViewAll" layoutX="348.0" layoutY="65.0" mnemonicParsing="false" onAction="#onViewAllHandler" text="View All" toggleGroup="$tgroup" />
    </children>
 </AnchorPane>

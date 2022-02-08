@@ -12,6 +12,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
+import model.AppointmentDAOImpl;
 import model.User;
 import model.UserDAOImpl;
 
@@ -60,14 +61,15 @@ public class LoginController implements Initializable {
             if(u.getId().equals(userID) && u.getPassword().equals(password)) {
                 loggedInUser.setId(u.getId());
                 loggedInUser.setUsername(u.getUsername());
+
                 //load widget hierarchy of next screen
-                Parent root = FXMLLoader.load(getClass().getResource("/view/CustomerView.fxml"));
+                Parent root = FXMLLoader.load(getClass().getResource("/view/AppointmentView.fxml"));
 
                 //get the stage from an event's source widget
                 Stage stage = (Stage) ((Node)actionEvent.getSource()).getScene().getWindow();
 
                 //Create the New Scene
-                Scene scene = new Scene(root, 600, 500);
+                Scene scene = new Scene(root, 850, 550);
                 stage.setTitle("Customer View");
 
                 //Set the scene on the stage
@@ -75,6 +77,9 @@ public class LoginController implements Initializable {
 
                 //raise the curtain
                 stage.show();
+
+                AppointmentDAOImpl.getAppointmentAlert();
+
                 return;
             }
             else if(count == userList.size()) {

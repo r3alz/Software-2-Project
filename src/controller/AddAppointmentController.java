@@ -12,7 +12,7 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
-import model.AppointmentDAOImpl;
+import model.*;
 
 import java.io.IOException;
 import java.net.URL;
@@ -28,7 +28,7 @@ public class AddAppointmentController implements Initializable {
     public TextField Location;
     public TextField AppointmentID;
     public Button UpdateAppointment;
-    public TextField Contact;
+    public ComboBox ContactBox;
     public TextField Type;
     public TextField CustomerID;
     public TextField UserID;
@@ -42,12 +42,15 @@ public class AddAppointmentController implements Initializable {
     public ComboBox EndMinutes;
     public ComboBox EndAmOrPm;
 
+    private ObservableList<Contact> contactsList = ContactDAOImpl.getAllContacts();
+
     public void onAddAppointmentHandler(ActionEvent actionEvent) throws SQLException {
         String title = Title.getText();
         String description = Description.getText();
         String location = Location.getText();
         LocalDate startDate = StartDate.getValue();
-        int contactID = Integer.parseInt(Contact.getText());
+        Contact contact = (Contact) ContactBox.getSelectionModel().getSelectedItem();
+        int contactID = contact.getContactID();
         String type = Type.getText();
         LocalDate endDate = EndDate.getValue();
         String amOrPm = String.valueOf(AmOrPm.getValue());
@@ -106,5 +109,8 @@ public class AddAppointmentController implements Initializable {
         EndHour.getItems().addAll(1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12);
         EndMinutes.getItems().addAll(0, 15, 30, 45);
         EndAmOrPm.getItems().addAll("AM", "PM");
+
+        ContactBox.setItems(contactsList);
+
     }
 }

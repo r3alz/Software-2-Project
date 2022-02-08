@@ -38,11 +38,11 @@ public class UpdateAppointmentController implements Initializable {
         Title.setText(appointment.getTitle());
         Description.setText(appointment.getDescription());
         Location.setText(appointment.getLocation());
-        StartDateTime.setText(appointment.getStartDateTime());
+        StartDateTime.setText(String.valueOf(appointment.getStartDateTime()));
         AppointmentID.setText(String.valueOf(appointment.getAppointmentID()));
         Contact.setText(String.valueOf(appointment.getContactID()));
         Type.setText(appointment.getType());
-        EndDateTime.setText(appointment.getEndDateTime());
+        EndDateTime.setText(String.valueOf(appointment.getEndDateTime()));
         CustomerID.setText(String.valueOf(appointment.getCustomerID()));
         UserID.setText(String.valueOf(appointment.getUserID()));
     }

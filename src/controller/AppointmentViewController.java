@@ -1,6 +1,8 @@
 package controller;
 
 import DAO.JDBC;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -14,11 +16,17 @@ import model.Appointment;
 import model.AppointmentDAOImpl;
 import javafx.scene.control.*;
 import model.CustomerDAOImpl;
+import model.Division;
 
 import java.io.IOException;
 import java.net.URL;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.time.*;
+import java.time.temporal.TemporalField;
+import java.time.temporal.WeekFields;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.ResourceBundle;
 
 public class AppointmentViewController implements Initializable {
@@ -38,6 +46,10 @@ public class AppointmentViewController implements Initializable {
     public Button CustomerView;
 
     private static Appointment selectedAppointment;
+    public RadioButton ViewWeek;
+    public ToggleGroup tgroup;
+    public RadioButton ViewMonth;
+    public RadioButton ViewAll;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -120,5 +132,62 @@ public class AppointmentViewController implements Initializable {
 
     public static Appointment getSelectedAppointment() {
         return selectedAppointment;
+    }
+
+    public void onViewWeekHandler(ActionEvent actionEvent) {
+        ObservableList<Appointment> appointments = AppointmentDAOImpl.getAllAppointments();
+        ObservableList<Appointment> tempList = FXCollections.observableArrayList();
+        WeekFields weekFields = WeekFields.of(DayOfWeek.MONDAY, 1);
+        TemporalField weekOfMonth = weekFields.weekOfMonth();
+        LocalDate date = LocalDate.now();
+        LocalDate end = date.plusMonths(1);
+        List<LocalDate> dates = new ArrayList<>();
+        int wom = date.get(weekOfMonth);
+        Month month = date.getMonth();
+        while (date.isBefore(end)) {
+            for (Appointment a : appointments) {
+                LocalDateTime testDateTime = a.getStartDateTime();
+                LocalDate testDate = testDateTime.toLocalDate();
+                Month dateTimeMonth = testDate.getMonth();
+                if (wom == testDate.get(weekOfMonth) && month == dateTimeMonth) {
+                    System.out.println(wom);
+                    System.out.println(testDate.get(weekOfMonth));
+                    if (!tempList.contains(a)) {
+                        tempList.add(a);
+                    }
+                }
+            }
+            date = date.plusDays(1);
+        }
+
+        AppointmentTable.setItems(tempList);
+    }
+
+    public void onViewMonthHandler(ActionEvent actionEvent) {
+        ObservableList<Appointment> appointments = AppointmentDAOImpl.getAllAppointments();
+        ObservableList<Appointment> tempList = FXCollections.observableArrayList();
+        LocalDate day = LocalDate.now();
+        LocalDate date = LocalDate.now().withDayOfMonth(1);
+        LocalDate end = date.plusMonths(1);
+        List<LocalDate> dates = new ArrayList<>();
+        while (date.isBefore(end)) {
+            Month month = date.getMonth();
+            for (Appointment a : appointments) {
+                LocalDateTime testDateTime = a.getStartDateTime();
+                Month dateTimeMonth = testDateTime.getMonth();
+                if (month == dateTimeMonth) {
+                    if (!tempList.contains(a)) {
+                        tempList.add(a);
+                    }
+                }
+            }
+            date = date.plusDays(1);
+        }
+
+        AppointmentTable.setItems(tempList);
+    }
+
+    public void onViewAllHandler(ActionEvent actionEvent) {
+        AppointmentTable.setItems(AppointmentDAOImpl.getAllAppointments());
     }
 }
