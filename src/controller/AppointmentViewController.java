@@ -1,6 +1,6 @@
 package controller;
 
-import DAO.JDBC;
+import util.JDBC;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -15,8 +15,6 @@ import javafx.stage.Stage;
 import model.Appointment;
 import model.AppointmentDAOImpl;
 import javafx.scene.control.*;
-import model.CustomerDAOImpl;
-import model.Division;
 
 import java.io.IOException;
 import java.net.URL;
@@ -50,6 +48,8 @@ public class AppointmentViewController implements Initializable {
     public ToggleGroup tgroup;
     public RadioButton ViewMonth;
     public RadioButton ViewAll;
+    public Button ReportsButton;
+    public Button Reports2Button;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -88,7 +88,7 @@ public class AppointmentViewController implements Initializable {
 
     public void onDeleteAppointment(ActionEvent actionEvent) throws SQLException {
         selectedAppointment = AppointmentTable.getSelectionModel().getSelectedItem();
-        String sql = "DELETE FROM customers WHERE Customer_ID = " + selectedAppointment.getCustomerID();
+        String sql = "DELETE FROM appointments WHERE Appointment_ID = " + selectedAppointment.getAppointmentID();
         PreparedStatement ps = JDBC.getConnection().prepareStatement(sql);
         ps.executeUpdate();
         AppointmentTable.setItems(AppointmentDAOImpl.getAllAppointments());
@@ -189,5 +189,59 @@ public class AppointmentViewController implements Initializable {
 
     public void onViewAllHandler(ActionEvent actionEvent) {
         AppointmentTable.setItems(AppointmentDAOImpl.getAllAppointments());
+    }
+
+    public void onReportsHandler(ActionEvent actionEvent) throws IOException {
+        //load widget hierarchy of next screen
+        Parent root = FXMLLoader.load(getClass().getResource("/view/Reports.fxml"));
+
+        //get the stage from an event's source widget
+        Stage stage = (Stage) ((Node)actionEvent.getSource()).getScene().getWindow();
+
+        //Create the New Scene
+        Scene scene = new Scene(root, 600, 500);
+        stage.setTitle("Report");
+
+        //Set the scene on the stage
+        stage.setScene(scene);
+
+        //raise the curtain
+        stage.show();
+    }
+
+    public void onReports2Handler(ActionEvent actionEvent) throws IOException {
+        //load widget hierarchy of next screen
+        Parent root = FXMLLoader.load(getClass().getResource("/view/Reports2.fxml"));
+
+        //get the stage from an event's source widget
+        Stage stage = (Stage) ((Node)actionEvent.getSource()).getScene().getWindow();
+
+        //Create the New Scene
+        Scene scene = new Scene(root, 700, 600);
+        stage.setTitle("Report");
+
+        //Set the scene on the stage
+        stage.setScene(scene);
+
+        //raise the curtain
+        stage.show();
+    }
+
+    public void onReports3Handler(ActionEvent actionEvent) throws IOException {
+        //load widget hierarchy of next screen
+        Parent root = FXMLLoader.load(getClass().getResource("/view/Reports3.fxml"));
+
+        //get the stage from an event's source widget
+        Stage stage = (Stage) ((Node)actionEvent.getSource()).getScene().getWindow();
+
+        //Create the New Scene
+        Scene scene = new Scene(root, 700, 600);
+        stage.setTitle("Report");
+
+        //Set the scene on the stage
+        stage.setScene(scene);
+
+        //raise the curtain
+        stage.show();
     }
 }

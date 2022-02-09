@@ -1,6 +1,6 @@
 package controller;
 
-import DAO.JDBC;
+import util.JDBC;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -12,7 +12,6 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
-import model.AppointmentDAOImpl;
 import model.Customer;
 import model.CustomerDAOImpl;
 

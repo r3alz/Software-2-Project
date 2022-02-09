@@ -15,6 +15,7 @@ import javafx.stage.Stage;
 import model.AppointmentDAOImpl;
 import model.User;
 import model.UserDAOImpl;
+import util.LoginTracker;
 
 import java.io.IOException;
 import java.net.URL;
@@ -62,6 +63,8 @@ public class LoginController implements Initializable {
                 loggedInUser.setId(u.getId());
                 loggedInUser.setUsername(u.getUsername());
 
+                LoginTracker.loginSuccess(u.getUsername());
+
                 //load widget hierarchy of next screen
                 Parent root = FXMLLoader.load(getClass().getResource("/view/AppointmentView.fxml"));
 
@@ -84,6 +87,9 @@ public class LoginController implements Initializable {
             }
             else if(count == userList.size()) {
                 count = 0;
+
+                LoginTracker.loginFailed(userID);
+
                 try {
                     ResourceBundle rb = ResourceBundle.getBundle("Nat", Locale.getDefault());
                     if(Locale.getDefault().getLanguage().equals("en") || Locale.getDefault().getLanguage().equals("fr")) {

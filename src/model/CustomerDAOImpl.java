@@ -1,6 +1,6 @@
 package model;
 
-import DAO.JDBC;
+import util.JDBC;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
