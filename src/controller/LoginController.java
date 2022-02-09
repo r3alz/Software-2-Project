@@ -88,7 +88,7 @@ public class LoginController implements Initializable {
             else if(count == userList.size()) {
                 count = 0;
 
-                LoginTracker.loginFailed(userID);
+                LoginTracker.loginFailed(UserID.getText());
 
                 try {
                     ResourceBundle rb = ResourceBundle.getBundle("Nat", Locale.getDefault());

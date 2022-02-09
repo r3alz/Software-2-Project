@@ -16,7 +16,7 @@ public class LoginTracker {
         pw.println("Successful login by " + username + " on " + LocalDateTime.now());
     }
 
-    public static void loginFailed(int userID) throws IOException {
+    public static void loginFailed(String userID) throws IOException {
         FileWriter fw = new FileWriter(FILENAME, true);
         BufferedWriter bw = new BufferedWriter(fw);
         PrintWriter pw = new PrintWriter(bw);
