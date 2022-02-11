@@ -89,7 +89,7 @@ public class AddAppointmentController implements Initializable {
         Stage stage = (Stage) ((Node)actionEvent.getSource()).getScene().getWindow();
 
         //Create the New Scene
-        Scene scene = new Scene(root, 600, 500);
+        Scene scene = new Scene(root, 850, 550);
         stage.setTitle("Customer View");
 
         //Set the scene on the stage

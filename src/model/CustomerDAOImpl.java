@@ -79,4 +79,25 @@ public class CustomerDAOImpl {
         ps.setInt(7, divisionID);
         ps.executeUpdate();
     }
+
+    public static Boolean doesAppointmentExist(int customerID) {
+        try{
+            String sql = "Select * from appointments";
+
+            PreparedStatement ps = JDBC.getConnection().prepareStatement(sql);
+
+            ResultSet rs = ps.executeQuery();
+
+            while(rs.next()) {
+                int cID = rs.getInt("Customer_ID");
+                if (customerID == cID) {
+                    return true;
+                }
+            }
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+
+        return false;
+    }
 }

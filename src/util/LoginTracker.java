@@ -7,19 +7,19 @@ import java.io.PrintWriter;
 import java.time.LocalDateTime;
 
 public class LoginTracker {
-    private static final String FILENAME = "LoginTracker.txt";
+    private static final String FILENAME = "/Users/LabUser/IdeaProjects/HelloWorldJFX/LoginTracker.txt";
 
     public static void loginSuccess(String username) throws IOException {
-        FileWriter fw = new FileWriter(FILENAME, true);
-        BufferedWriter bw = new BufferedWriter(fw);
-        PrintWriter pw = new PrintWriter(bw);
-        pw.println("Successful login by " + username + " on " + LocalDateTime.now());
+        BufferedWriter bw = new BufferedWriter(new FileWriter(FILENAME, true));
+        bw.append("Successful login by " + username + " on " + LocalDateTime.now() + "\n");
+        bw.flush();
+        bw.close();
     }
 
     public static void loginFailed(String userID) throws IOException {
-        FileWriter fw = new FileWriter(FILENAME, true);
-        BufferedWriter bw = new BufferedWriter(fw);
-        PrintWriter pw = new PrintWriter(bw);
-        pw.println("Failed login with the userID of " + userID + " on " + LocalDateTime.now());
+        BufferedWriter bw = new BufferedWriter(new FileWriter(FILENAME, true));
+        bw.append("Failed login with the userID of " + userID + " on " + LocalDateTime.now() + "\n");
+        bw.flush();
+        bw.close();
     }
 }

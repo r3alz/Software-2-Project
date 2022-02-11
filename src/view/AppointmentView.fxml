@@ -1,15 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
 <?import javafx.scene.control.RadioButton?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.ToggleGroup?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="419.0" prefWidth="881.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.AppointmentViewController">
+<AnchorPane prefHeight="520.0" prefWidth="881.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.AppointmentViewController">
    <children>
-      <TableView fx:id="AppointmentTable" layoutX="96.0" layoutY="100.0" prefHeight="200.0" prefWidth="675.0">
+      <TableView fx:id="AppointmentTable" layoutX="96.0" layoutY="171.0" prefHeight="200.0" prefWidth="675.0">
         <columns>
           <TableColumn fx:id="AppointmentID" prefWidth="75.0" text="Appointment ID" />
           <TableColumn fx:id="Title" prefWidth="75.0" text="Title" />
@@ -22,19 +26,47 @@
             <TableColumn fx:id="UserID" prefWidth="75.0" text="User ID" />
         </columns>
       </TableView>
-      <Button fx:id="UpdateAppointment" layoutX="228.0" layoutY="339.0" mnemonicParsing="false" onAction="#onUpdateAppointment" text="Update Appointment" />
-      <Button fx:id="DeleteAppointment" layoutX="380.0" layoutY="339.0" mnemonicParsing="false" onAction="#onDeleteAppointment" text="Delete Appointment" />
-      <Button fx:id="AddAppointment" layoutX="96.0" layoutY="339.0" mnemonicParsing="false" onAction="#onAddAppointment" text="Add Appointment" />
-      <Button fx:id="CustomerView" layoutX="18.0" layoutY="14.0" mnemonicParsing="false" onAction="#onCustomerViewHandler" text="View &amp; Update Customers" />
-      <RadioButton fx:id="ViewWeek" layoutX="96.0" layoutY="65.0" mnemonicParsing="false" onAction="#onViewWeekHandler" text="View Week">
+      <Button fx:id="UpdateAppointment" layoutX="228.0" layoutY="410.0" mnemonicParsing="false" onAction="#onUpdateAppointment" text="Update Appointment" />
+      <Button fx:id="DeleteAppointment" layoutX="380.0" layoutY="410.0" mnemonicParsing="false" onAction="#onDeleteAppointment" text="Delete Appointment" />
+      <Button fx:id="AddAppointment" layoutX="96.0" layoutY="410.0" mnemonicParsing="false" onAction="#onAddAppointment" text="Add Appointment" />
+      <RadioButton fx:id="ViewWeek" layoutX="96.0" layoutY="140.0" mnemonicParsing="false" onAction="#onViewWeekHandler" text="View Week">
          <toggleGroup>
             <ToggleGroup fx:id="tgroup" />
          </toggleGroup>
       </RadioButton>
-      <RadioButton fx:id="ViewMonth" layoutX="219.0" layoutY="65.0" mnemonicParsing="false" onAction="#onViewMonthHandler" text="View Month" toggleGroup="$tgroup" />
-      <RadioButton fx:id="ViewAll" layoutX="348.0" layoutY="65.0" mnemonicParsing="false" onAction="#onViewAllHandler" text="View All" toggleGroup="$tgroup" />
-      <Button fx:id="ReportsButton" layoutX="191.0" layoutY="14.0" mnemonicParsing="false" onAction="#onReportsHandler" text="Reports" />
-      <Button fx:id="Reports2Button" layoutX="267.0" layoutY="14.0" mnemonicParsing="false" onAction="#onReports2Handler" text="Reports 2" />
-      <Button fx:id="Reports3Button" layoutX="357.0" layoutY="14.0" mnemonicParsing="false" onAction="#onReports3Handler" text="Reports 3" />
+      <RadioButton fx:id="ViewMonth" layoutX="219.0" layoutY="140.0" mnemonicParsing="false" onAction="#onViewMonthHandler" text="View Month" toggleGroup="$tgroup" />
+      <RadioButton fx:id="ViewAll" layoutX="348.0" layoutY="140.0" mnemonicParsing="false" onAction="#onViewAllHandler" text="View All" toggleGroup="$tgroup" />
+      <BorderPane layoutX="496.0" layoutY="51.0" prefHeight="71.0" prefWidth="344.0" style="-fx-border-color: black;">
+         <left>
+            <Button fx:id="ReportsButton" mnemonicParsing="false" onAction="#onReportsHandler" text="Customer Report" BorderPane.alignment="CENTER" />
+         </left>
+         <center>
+            <Button fx:id="Reports2Button" mnemonicParsing="false" onAction="#onReports2Handler" text="Contact Schedule" BorderPane.alignment="CENTER" />
+         </center>
+         <right>
+            <Button fx:id="Reports3Button" mnemonicParsing="false" onAction="#onReports3Handler" text="State Schedule" BorderPane.alignment="CENTER" />
+         </right>
+         <padding>
+            <Insets bottom="9.0" left="9.0" right="9.0" top="9.0" />
+         </padding>
+      </BorderPane>
+      <Label layoutX="612.0" layoutY="13.0" text="View Reports">
+         <font>
+            <Font name="System Bold" size="18.0" />
+         </font>
+      </Label>
+      <Label layoutX="81.0" layoutY="13.0" text="Change View">
+         <font>
+            <Font name="System Bold" size="18.0" />
+         </font>
+      </Label>
+      <BorderPane layoutX="43.0" layoutY="51.0" prefHeight="71.0" prefWidth="187.0" style="-fx-border-color: black;">
+         <padding>
+            <Insets bottom="9.0" left="9.0" right="9.0" top="9.0" />
+         </padding>
+         <center>
+            <Button fx:id="CustomerView" mnemonicParsing="false" onAction="#onCustomerViewHandler" text="View &amp; Update Customers" BorderPane.alignment="CENTER" />
+         </center>
+      </BorderPane>
    </children>
 </AnchorPane>

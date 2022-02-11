@@ -1,5 +1,11 @@
 package controller;
 
+import javafx.event.ActionEvent;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.stage.Stage;
 import util.JDBC;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -8,6 +14,7 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.MapValueFactory;
 
+import java.io.IOException;
 import java.net.URL;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -71,5 +78,23 @@ public class Reports3Controller implements Initializable {
             throwables.printStackTrace();
         }
         Reports3Table.setItems(items);
+    }
+
+    public void onBackHandler(ActionEvent actionEvent) throws IOException {
+        //load widget hierarchy of next screen
+        Parent root = FXMLLoader.load(getClass().getResource("/view/AppointmentView.fxml"));
+
+        //get the stage from an event's source widget
+        Stage stage = (Stage) ((Node)actionEvent.getSource()).getScene().getWindow();
+
+        //Create the New Scene
+        Scene scene = new Scene(root, 850, 550);
+        stage.setTitle("Appointments");
+
+        //Set the scene on the stage
+        stage.setScene(scene);
+
+        //raise the curtain
+        stage.show();
     }
 }

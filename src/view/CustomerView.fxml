@@ -1,24 +1,59 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.CustomerViewController">
+<AnchorPane prefHeight="493.0" prefWidth="683.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.CustomerViewController">
    <children>
-      <TableView fx:id="UpdateCustomerTable" layoutX="90.0" layoutY="51.0" prefHeight="200.0" prefWidth="405.0">
+      <TableView fx:id="UpdateCustomerTable" layoutX="74.0" layoutY="171.0" prefHeight="200.0" prefWidth="538.0">
         <columns>
           <TableColumn fx:id="CustomerID" prefWidth="75.0" text="Customer ID" />
-          <TableColumn fx:id="Name" prefWidth="75.0" text="Name" />
-            <TableColumn fx:id="Address" prefWidth="75.0" text="Address" />
-            <TableColumn fx:id="PostalCode" prefWidth="75.0" text="Postal Code" />
-            <TableColumn fx:id="PhoneNumber" prefWidth="104.0" text="Phone Number" />
+          <TableColumn fx:id="Name" prefWidth="94.0" text="Name" />
+            <TableColumn fx:id="Address" prefWidth="167.0" text="Address" />
+            <TableColumn fx:id="PostalCode" prefWidth="91.0" text="Postal Code" />
+            <TableColumn fx:id="PhoneNumber" prefWidth="110.0" text="Phone Number" />
         </columns>
       </TableView>
-      <Button fx:id="UpdateCustomer" layoutX="190.0" layoutY="266.0" mnemonicParsing="false" onAction="#updateCustomerHandler" text="Update Customer" />
-      <Button fx:id="DeleteCustomer" layoutX="308.0" layoutY="266.0" mnemonicParsing="false" onAction="#deleteCustomerHandler" text="Delete Customer" />
-      <Button fx:id="AddCustomer" layoutX="90.0" layoutY="266.0" mnemonicParsing="false" onAction="#onAddCustomerHandler" text="Add Customer" />
-      <Button fx:id="ViewAppointments" layoutX="320.0" layoutY="353.0" mnemonicParsing="false" onAction="#onViewAppointmentsHandler" text="View &amp; Update Appointments" />
+      <Button fx:id="UpdateCustomer" layoutX="172.0" layoutY="377.0" mnemonicParsing="false" onAction="#updateCustomerHandler" text="Update Customer" />
+      <Button fx:id="DeleteCustomer" layoutX="290.0" layoutY="377.0" mnemonicParsing="false" onAction="#deleteCustomerHandler" text="Delete Customer" />
+      <Button fx:id="AddCustomer" layoutX="72.0" layoutY="377.0" mnemonicParsing="false" onAction="#onAddCustomerHandler" text="Add Customer" />
+      <BorderPane layoutX="318.0" layoutY="59.0" prefHeight="71.0" prefWidth="344.0" style="-fx-border-color: black;">
+         <left>
+            <Button fx:id="ReportsButton" mnemonicParsing="false" onAction="#onReportsHandler" text="Customer Report" BorderPane.alignment="CENTER" />
+         </left>
+         <center>
+            <Button fx:id="Reports2Button" mnemonicParsing="false" onAction="#onReports2Handler" text="Contact Schedule" BorderPane.alignment="CENTER" />
+         </center>
+         <right>
+            <Button fx:id="Reports3Button" mnemonicParsing="false" onAction="#onReports3Handler" text="State Schedule" BorderPane.alignment="CENTER" />
+         </right>
+         <padding>
+            <Insets bottom="9.0" left="9.0" right="9.0" top="9.0" />
+         </padding>
+      </BorderPane>
+      <Label layoutX="434.0" layoutY="21.0" text="View Reports">
+         <font>
+            <Font name="System Bold" size="18.0" />
+         </font>
+      </Label>
+      <BorderPane layoutX="15.0" layoutY="59.0" prefHeight="71.0" prefWidth="207.0" style="-fx-border-color: black;">
+         <padding>
+            <Insets bottom="9.0" left="9.0" right="9.0" top="9.0" />
+         </padding>
+         <center>
+            <Button fx:id="ViewAppointments" mnemonicParsing="false" onAction="#onViewAppointmentsHandler" text="View &amp; Update Appointments" BorderPane.alignment="CENTER" />
+         </center>
+      </BorderPane>
+      <Label layoutX="53.0" layoutY="21.0" text="Change View">
+         <font>
+            <Font name="System Bold" size="18.0" />
+         </font>
+      </Label>
    </children>
 </AnchorPane>

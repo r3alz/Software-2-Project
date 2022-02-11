@@ -8,6 +8,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
@@ -37,25 +38,47 @@ public class UpdateCustomerController implements Initializable {
     public void onCountryHandler(ActionEvent actionEvent) {
         Country selc = (Country) CountryCombo.getSelectionModel().getSelectedItem();
         ObservableList<Division> tempList = FXCollections.observableArrayList();
-        for(Division d: statesList) {
-            if (selc.getCountryID() == d.getCountryID()) {
-                tempList.add(d);
-            }
-        }
+        statesList.forEach(d -> {
+           if (selc.getCountryID() == d.getCountryID()) {
+               tempList.add(d);
+           }
+        });
         StateCombo.setItems(tempList);
     }
 
-    public void onUpdateCustomerHandler(ActionEvent actionEvent) throws SQLException {
-        int customerID = CustomerViewController.getSelectedCustomer().getCustomerID();
-        String customerName = CustomerName.getText();
-        String address = Address.getText();
-        String postalCode = PostalCode.getText();
-        String phone = PhoneNumber.getText();
-        LocalDateTime lastUpdate = LocalDateTime.now();
-        String lastUpdatedBy = LoginController.getLoggedInUser().getUsername();
-        int divisionID = StateCombo.getSelectionModel().getSelectedItem().getDivisionID();
+    public void onUpdateCustomerHandler(ActionEvent actionEvent) throws SQLException, IOException {
+        try {
+            int customerID = CustomerViewController.getSelectedCustomer().getCustomerID();
+            String customerName = CustomerName.getText();
+            String address = Address.getText();
+            String postalCode = PostalCode.getText();
+            String phone = PhoneNumber.getText();
+            LocalDateTime lastUpdate = LocalDateTime.now();
+            String lastUpdatedBy = LoginController.getLoggedInUser().getUsername();
+            int divisionID = StateCombo.getSelectionModel().getSelectedItem().getDivisionID();
 
-        CustomerDAOImpl.updateCustomer(customerID, customerName, address, postalCode, phone, lastUpdate, lastUpdatedBy, divisionID);
+            CustomerDAOImpl.updateCustomer(customerID, customerName, address, postalCode, phone, lastUpdate, lastUpdatedBy, divisionID);
+        } catch (Exception e) {
+            Alert alert = new Alert(Alert.AlertType.ERROR, "Please fill in each field with a proper value");
+            alert.showAndWait();
+            return;
+        }
+
+        //load widget hierarchy of next screen
+        Parent root = FXMLLoader.load(getClass().getResource("/view/CustomerView.fxml"));
+
+        //get the stage from an event's source widget
+        Stage stage = (Stage) ((Node)actionEvent.getSource()).getScene().getWindow();
+
+        //Create the New Scene
+        Scene scene = new Scene(root, 850, 550);
+        stage.setTitle("Customer View");
+
+        //Set the scene on the stage
+        stage.setScene(scene);
+
+        //raise the curtain
+        stage.show();
     }
 
     @Override
@@ -105,7 +128,7 @@ public class UpdateCustomerController implements Initializable {
         Stage stage = (Stage) ((Node)actionEvent.getSource()).getScene().getWindow();
 
         //Create the New Scene
-        Scene scene = new Scene(root, 600, 500);
+        Scene scene = new Scene(root, 850, 550);
         stage.setTitle("Customer View");
 
         //Set the scene on the stage

@@ -25,6 +25,7 @@ import java.time.temporal.TemporalField;
 import java.time.temporal.WeekFields;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.ResourceBundle;
 
 public class AppointmentViewController implements Initializable {
@@ -69,6 +70,12 @@ public class AppointmentViewController implements Initializable {
     public void onUpdateAppointment(ActionEvent actionEvent) throws IOException {
         selectedAppointment = AppointmentTable.getSelectionModel().getSelectedItem();
 
+        if(selectedAppointment == null) {
+            Alert alert = new Alert(Alert.AlertType.ERROR, "Please select an appointment");
+            alert.showAndWait();
+            return;
+        }
+
         //load widget hierarchy of next screen
         Parent root = FXMLLoader.load(getClass().getResource("/view/UpdateAppointment.fxml"));
 
@@ -87,11 +94,22 @@ public class AppointmentViewController implements Initializable {
     }
 
     public void onDeleteAppointment(ActionEvent actionEvent) throws SQLException {
-        selectedAppointment = AppointmentTable.getSelectionModel().getSelectedItem();
-        String sql = "DELETE FROM appointments WHERE Appointment_ID = " + selectedAppointment.getAppointmentID();
-        PreparedStatement ps = JDBC.getConnection().prepareStatement(sql);
-        ps.executeUpdate();
-        AppointmentTable.setItems(AppointmentDAOImpl.getAllAppointments());
+        Appointment selectedAppointment = AppointmentTable.getSelectionModel().getSelectedItem();
+
+        if(selectedAppointment == null) {
+            Alert alert = new Alert(Alert.AlertType.ERROR, "Please select a appointment");
+            alert.showAndWait();
+            return;
+        }
+
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "Do you want to delete this appointment?");
+        Optional<ButtonType> selection = alert.showAndWait();
+        if(selection.get() == ButtonType.OK) {
+            String sql = "DELETE FROM appointments WHERE Appointment_ID = " + selectedAppointment.getAppointmentID();
+            PreparedStatement ps = JDBC.getConnection().prepareStatement(sql);
+            ps.executeUpdate();
+            AppointmentTable.setItems(AppointmentDAOImpl.getAllAppointments());
+        }
     }
 
     public void onAddAppointment(ActionEvent actionEvent) throws IOException {
@@ -120,7 +138,7 @@ public class AppointmentViewController implements Initializable {
         Stage stage = (Stage) ((Node)actionEvent.getSource()).getScene().getWindow();
 
         //Create the New Scene
-        Scene scene = new Scene(root, 600, 500);
+        Scene scene = new Scene(root, 850, 550);
         stage.setTitle("Customers");
 
         //Set the scene on the stage
@@ -145,7 +163,17 @@ public class AppointmentViewController implements Initializable {
         int wom = date.get(weekOfMonth);
         Month month = date.getMonth();
         while (date.isBefore(end)) {
-            for (Appointment a : appointments) {
+            appointments.forEach(a -> {
+                LocalDateTime testDateTime = a.getStartDateTime();
+                LocalDate testDate = testDateTime.toLocalDate();
+                Month dateTimeMonth = testDate.getMonth();
+                if(wom == testDate.get(weekOfMonth) && month == dateTimeMonth) {
+                    if(!tempList.contains(a)) {
+                        tempList.add(a);
+                    }
+                }
+            });
+/*            for (Appointment a : appointments) {
                 LocalDateTime testDateTime = a.getStartDateTime();
                 LocalDate testDate = testDateTime.toLocalDate();
                 Month dateTimeMonth = testDate.getMonth();
@@ -156,7 +184,7 @@ public class AppointmentViewController implements Initializable {
                         tempList.add(a);
                     }
                 }
-            }
+            }*/
             date = date.plusDays(1);
         }
 
@@ -172,7 +200,7 @@ public class AppointmentViewController implements Initializable {
         List<LocalDate> dates = new ArrayList<>();
         while (date.isBefore(end)) {
             Month month = date.getMonth();
-            for (Appointment a : appointments) {
+            appointments.forEach(a -> {
                 LocalDateTime testDateTime = a.getStartDateTime();
                 Month dateTimeMonth = testDateTime.getMonth();
                 if (month == dateTimeMonth) {
@@ -180,7 +208,16 @@ public class AppointmentViewController implements Initializable {
                         tempList.add(a);
                     }
                 }
-            }
+            });
+/*            for (Appointment a : appointments) {
+                LocalDateTime testDateTime = a.getStartDateTime();
+                Month dateTimeMonth = testDateTime.getMonth();
+                if (month == dateTimeMonth) {
+                    if (!tempList.contains(a)) {
+                        tempList.add(a);
+                    }
+                }
+            }*/
             date = date.plusDays(1);
         }
 
@@ -199,7 +236,7 @@ public class AppointmentViewController implements Initializable {
         Stage stage = (Stage) ((Node)actionEvent.getSource()).getScene().getWindow();
 
         //Create the New Scene
-        Scene scene = new Scene(root, 600, 500);
+        Scene scene = new Scene(root, 700, 600);
         stage.setTitle("Report");
 
         //Set the scene on the stage
