@@ -8,6 +8,11 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+/**
+ * Created by Chris Ortiz
+ * DivisionDAOImpl class used for getting all the data from the division table in SQL and adding to observableArrayList
+ */
+
 public class DivisionDAOImpl {
     public static ObservableList<Division> getAllDivisions() {
 

@@ -10,8 +10,17 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDateTime;
 
+/**
+ * Created by Chris Ortiz
+ * used to get all of the customer data from the customers table in a SQL database
+ */
+
 public class CustomerDAOImpl {
 
+    /**
+     * Gets all of the customer data from the customers table in SQL database.  Adds them to a observableArrayList
+     * @return cList returns the list of Customer objects that are added to an observableArrayList
+     */
     public static ObservableList<Customer> getAllCustomers() {
 
         ObservableList<Customer> cList = FXCollections.observableArrayList();
@@ -46,6 +55,19 @@ public class CustomerDAOImpl {
         return cList;
     }
 
+    /**
+     * Adds (Inserts) a customer into the SQL database
+     * @param customerName to add to the Customer_Name column
+     * @param divisionID to add to the Division_ID column
+     * @param address to add to the Address column
+     * @param postalCode to add to the Postal_Code column
+     * @param phone to add to the Phone column
+     * @param createDate to add to the Create_Date column
+     * @param createdBy to add to the Created_By column
+     * @param lastUpdate to add to the Last_Update column
+     * @param lastUpdatedBy to add to the Last_Updated_By column
+     * @throws SQLException
+     */
     public static void addCustomer(String customerName, int divisionID, String address, String postalCode, String phone, LocalDateTime createDate, String createdBy, LocalDateTime lastUpdate, String lastUpdatedBy) throws SQLException {
         String sql = "INSERT INTO customers (Customer_Name, Address, Postal_Code, Phone, Create_Date, Created_By, Last_Update, Last_Updated_By, Division_ID)  VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
         PreparedStatement ps = JDBC.getConnection().prepareStatement(sql);
@@ -61,12 +83,29 @@ public class CustomerDAOImpl {
         ps.executeUpdate();
     }
 
+    /**
+     * Deletes a customer from the SQL database
+     * @param customerID row with this customerID will be deleted from the customer table
+     * @throws SQLException
+     */
     public static void deleteCustomer(int customerID) throws SQLException {
         String sql = "DELETE FROM customers WHERE Customer_ID = " + customerID;
         PreparedStatement ps = JDBC.getConnection().prepareStatement(sql);
         ps.executeUpdate();
     }
 
+    /**
+     * Updates row in the customers table
+     * @param customerID Updates the row in the customers table that has this customerID
+     * @param customerName customerName to update Customer_Name column
+     * @param address address to update Address column
+     * @param postalCode postalCode to update Postal_Code column
+     * @param phone phone to update Phone column
+     * @param lastUpdate lastUpdate to update Last_Update
+     * @param lastUpdatedBy lastUpdatedBy to updated Last_Updated_By column
+     * @param divisionID divisionID to update Division_ID column
+     * @throws SQLException
+     */
     public static void updateCustomer(int customerID, String customerName, String address, String postalCode, String phone, LocalDateTime lastUpdate, String lastUpdatedBy, int divisionID) throws SQLException {
         String sql = "Update customers SET Customer_Name = ?,Address = ?,Postal_Code = ?, Phone = ?, Last_Update = ?, Last_Updated_By = ?, Division_ID = ? WHERE Customer_ID = " + customerID;
         PreparedStatement ps = JDBC.getConnection().prepareStatement(sql);
@@ -80,6 +119,11 @@ public class CustomerDAOImpl {
         ps.executeUpdate();
     }
 
+    /**
+     * Runs a SQL query to see if an appointment exists for the Customer
+     * @param customerID uses this customerID to find Customer
+     * @return true if appointment exists false if does not exist
+     */
     public static Boolean doesAppointmentExist(int customerID) {
         try{
             String sql = "Select * from appointments";

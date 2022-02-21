@@ -23,7 +23,11 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.ResourceBundle;
 
-public class Reports2Controller implements Initializable {
+/**
+ * Created By Chris Ortiz
+ * Used to control the ScheduleReport view
+ */
+public class ScheduleReportController implements Initializable {
     public TableColumn<Map, String> ContactName;
     public TableColumn<Map, String> AppointmentID;
     public TableColumn<Map, String> Title;
@@ -34,6 +38,11 @@ public class Reports2Controller implements Initializable {
     public TableColumn<Map, String> CustomerID;
     public TableView Reports2Table;
 
+    /**
+     *
+     * @param url
+     * @param resourceBundle
+     */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         ObservableList<Map<String, Object>> items = FXCollections.observableArrayList();
@@ -80,6 +89,11 @@ public class Reports2Controller implements Initializable {
         Reports2Table.setItems(items);
     }
 
+    /**
+     *
+     * @param actionEvent
+     * @throws IOException
+     */
     public void onBackHandler(ActionEvent actionEvent) throws IOException {
         //load widget hierarchy of next screen
         Parent root = FXMLLoader.load(getClass().getResource("/view/AppointmentView.fxml"));

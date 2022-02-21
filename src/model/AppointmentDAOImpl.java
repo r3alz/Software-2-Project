@@ -13,9 +13,15 @@ import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
 
-
+/**
+ * Created By Chris Ortiz
+ * AppointmentDAOImpl class used for getting all the data from the appointments table in SQL and adding to observableArrayList
+ */
 public class AppointmentDAOImpl {
-
+    /**
+     * Gets all of the appointments from the appointments table and adds them as Appointment Objects to an observableArrayList
+     * @return aList an observableArrayList of Appointment Ojbects
+     */
     public static ObservableList<Appointment> getAllAppointments() {
         ObservableList<Appointment> aList = FXCollections.observableArrayList();
 
@@ -53,6 +59,23 @@ public class AppointmentDAOImpl {
         return aList;
     }
 
+    /**
+     * Adds (Inserts) an appointment to the appointments table
+     * @param title
+     * @param description
+     * @param location
+     * @param type
+     * @param startDateTime
+     * @param endDateTime
+     * @param createDate
+     * @param createdBy
+     * @param lastUpdate
+     * @param lastUpdatedBy
+     * @param customerID
+     * @param userID
+     * @param contactID
+     * @throws SQLException
+     */
     public static void addAppointment(String title, String description, String location, String type, LocalDateTime startDateTime, LocalDateTime endDateTime, LocalDateTime createDate, String createdBy, LocalDateTime lastUpdate, String lastUpdatedBy, int customerID, int userID, int contactID) throws SQLException {
         String sql = "INSERT INTO appointments (Title, Description, Location, Type, Start, End, Create_Date, Created_By, Last_Update, Last_Updated_By, Customer_ID, User_ID, Contact_ID)  VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
         PreparedStatement ps = JDBC.getConnection().prepareStatement(sql);
@@ -72,6 +95,42 @@ public class AppointmentDAOImpl {
         ps.executeUpdate();
     }
 
+    /**
+     * Updtes an appointment in the appointments table
+     * @param appointmentID
+     * @param title
+     * @param description
+     * @param location
+     * @param type
+     * @param startDateTime
+     * @param endDateTime
+     * @param lastUpdate
+     * @param lastUpdatedBy
+     * @param customerID
+     * @param userID
+     * @param contactID
+     * @throws SQLException
+     */
+    public static void updateAppointment(int appointmentID, String title, String description, String location, String type, LocalDateTime startDateTime, LocalDateTime endDateTime, LocalDateTime lastUpdate, String lastUpdatedBy, int customerID, int userID, int contactID) throws SQLException {
+        String sql = "UPDATE appointments SET Title = ?, Description = ?, Location = ?, Type = ?, Start = ?, End = ?, Last_Update = ?, Last_Updated_By = ?, Customer_ID = ?, User_ID = ?, Contact_ID = ? WHERE Appointment_ID = " + appointmentID;
+        PreparedStatement ps = JDBC.getConnection().prepareStatement(sql);
+        ps.setString(1, title);
+        ps.setString(2, description);
+        ps.setString(3, location);
+        ps.setString(4, type);
+        ps.setObject(5, startDateTime);
+        ps.setObject(6, endDateTime);
+        ps.setObject(7, lastUpdate);
+        ps.setString(8, lastUpdatedBy);
+        ps.setInt(9, customerID);
+        ps.setInt(10, userID);
+        ps.setInt(11, contactID);
+        ps.executeUpdate();
+    }
+
+    /**
+     * Alerts upon login if there is an appointment within 15 minutes of login time
+     */
     public static void getAppointmentAlert() {
         User currentUser = LoginController.getLoggedInUser();
         LocalDateTime dateTime = LocalDateTime.now();
@@ -99,5 +158,16 @@ public class AppointmentDAOImpl {
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
+    }
+
+    public static Boolean appointmentOverlap(LocalDateTime start, LocalDateTime end) {
+        ObservableList<Appointment> aList = AppointmentDAOImpl.getAllAppointments();
+        for(Appointment a: aList) {
+            if(start.isBefore(a.getEndDateTime()) && end.isAfter(a.getStartDateTime())) {
+                return true;
+            }
+        }
+
+        return false;
     }
 }

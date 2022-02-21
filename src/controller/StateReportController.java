@@ -23,7 +23,11 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.ResourceBundle;
 
-public class Reports3Controller implements Initializable {
+/**
+ * Created By Chris Ortiz
+ * Used to control the StateReport view
+ */
+public class StateReportController implements Initializable {
     public TableView Reports3Table;
     public TableColumn State;
     public TableColumn AppointmentID;
@@ -34,6 +38,11 @@ public class Reports3Controller implements Initializable {
     public TableColumn End;
     public TableColumn CustomerID;
 
+    /**
+     *
+     * @param url
+     * @param resourceBundle
+     */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         ObservableList<Map<String, Object>> items = FXCollections.observableArrayList();
@@ -80,6 +89,11 @@ public class Reports3Controller implements Initializable {
         Reports3Table.setItems(items);
     }
 
+    /**
+     *
+     * @param actionEvent
+     * @throws IOException
+     */
     public void onBackHandler(ActionEvent actionEvent) throws IOException {
         //load widget hierarchy of next screen
         Parent root = FXMLLoader.load(getClass().getResource("/view/AppointmentView.fxml"));

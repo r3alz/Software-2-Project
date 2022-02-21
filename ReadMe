@@ -1,0 +1,33 @@
+Title: Software II - Advanced Java Concepts Project
+
+Purpose: The purpose of this application is to be able to view, add, update, and delete customer and appointments from the SQL database.  Also, to be able to view reports with data from the database.
+
+Author: Chris Ortiz
+
+Email: corti97@wgu.edu
+
+Version: 1
+
+Date: 12/13/2022
+
+IDE Version: IntelliJ IDEA 2021.1.1 (Community Edition)
+
+JDK Version: JDK11
+
+JavaFX Version: 11.0.2
+
+Additional Report: States Report - shows the appointments by state and information about the appointments
+
+MySQL Connector Driver: mysql-connector-java-8.0.25
+
+Directions to use application: there are 2 users in the database.  userID 1 and userID2.  You will need to login with either userID.  Below is the login info for both accounts:
+
+User 1 userID: test
+
+User 1 password: test
+
+User 2 userID: admin
+
+User 2 password: admin
+
+After loggin in you will be able to add, view, delete and update appointments and customers.  When updating and adding appointments make sure to use 1 or 2 for the UserID field.

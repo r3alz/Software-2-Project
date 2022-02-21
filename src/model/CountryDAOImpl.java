@@ -8,7 +8,15 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+/**
+ * Created By Chris Ortiz
+ * used to get all of the Country data from the countries table in a SQL database
+ */
 public class CountryDAOImpl {
+    /**
+     * Gets all of the countries from the countries table and adds them as Country Objects to an observableArrayList
+     * @return cList an observableArrayList of Country Ojbects
+     */
     public static ObservableList<Country> getAllCountries() {
 
         ObservableList<Country> cList = FXCollections.observableArrayList();

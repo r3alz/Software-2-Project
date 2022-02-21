@@ -7,10 +7,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.DatePicker;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.stage.Stage;
 import model.*;
 
@@ -22,6 +19,10 @@ import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.ResourceBundle;
 
+/**
+ * Created By Chris Ortiz
+ * Used to control the AddAppointment view
+ */
 public class AddAppointmentController implements Initializable {
     public TextField Title;
     public TextField Description;
@@ -44,43 +45,84 @@ public class AddAppointmentController implements Initializable {
 
     private ObservableList<Contact> contactsList = ContactDAOImpl.getAllContacts();
 
-    public void onAddAppointmentHandler(ActionEvent actionEvent) throws SQLException {
-        String title = Title.getText();
-        String description = Description.getText();
-        String location = Location.getText();
-        LocalDate startDate = StartDate.getValue();
-        Contact contact = (Contact) ContactBox.getSelectionModel().getSelectedItem();
-        int contactID = contact.getContactID();
-        String type = Type.getText();
-        LocalDate endDate = EndDate.getValue();
-        String amOrPm = String.valueOf(AmOrPm.getValue());
-        String endAmOrPm = String.valueOf(EndAmOrPm.getValue());
-        int customerID = Integer.parseInt(CustomerID.getText());
-        int userID = Integer.parseInt(UserID.getText());
-        int startHour = Integer.parseInt(String.valueOf(Hour.getValue()));
-        int startMinutes = Integer.parseInt(String.valueOf(Minutes.getValue()));
+    /**
+     *
+     * @param actionEvent
+     * @throws SQLException
+     */
+    public void onAddAppointmentHandler(ActionEvent actionEvent) throws SQLException, IOException {
+        try {
+            String title = Title.getText();
+            String description = Description.getText();
+            String location = Location.getText();
+            LocalDate startDate = StartDate.getValue();
+            Contact contact = (Contact) ContactBox.getSelectionModel().getSelectedItem();
+            int contactID = contact.getContactID();
+            String type = Type.getText();
+            LocalDate endDate = EndDate.getValue();
+            String amOrPm = String.valueOf(AmOrPm.getValue());
+            String endAmOrPm = String.valueOf(EndAmOrPm.getValue());
+            int customerID = Integer.parseInt(CustomerID.getText());
+            int userID = Integer.parseInt(UserID.getText());
+            int startHour = Integer.parseInt(String.valueOf(Hour.getValue()));
+            int startMinutes = Integer.parseInt(String.valueOf(Minutes.getValue()));
 
-        if(amOrPm == "PM" && startHour < 12) {
-            startHour += 12;
+            if (amOrPm == "PM" && startHour < 12) {
+                startHour += 12;
+            }
+
+            LocalTime startTime = LocalTime.of(startHour, startMinutes);
+            int endHour = Integer.parseInt(String.valueOf(EndHour.getValue()));
+            int endMinutes = Integer.parseInt(String.valueOf(EndMinutes.getValue()));
+
+            if (endAmOrPm == "PM" && endHour < 12) {
+                endHour += 12;
+            }
+
+            LocalTime endTime = LocalTime.of(endHour, endMinutes);
+            LocalDateTime startDateTime = LocalDateTime.of(startDate, startTime);
+            LocalDateTime endDateTime = LocalDateTime.of(endDate, endTime);
+            String createdBy = LoginController.getLoggedInUser().getUsername();
+            LocalDateTime createDate = LocalDateTime.now();
+
+            Boolean appointmentOverlap = AppointmentDAOImpl.appointmentOverlap(startDateTime, endDateTime);
+
+            if(!appointmentOverlap) {
+                AppointmentDAOImpl.addAppointment(title, description, location, type, startDateTime, endDateTime, createDate, createdBy, createDate, createdBy, customerID, userID, contactID);
+            } else {
+                Alert alert = new Alert(Alert.AlertType.ERROR, "This appointment would overlap with another appointment.  Please change the dates and time.");
+                alert.showAndWait();
+                return;
+            }
+
+        } catch (Exception e) {
+            Alert alert = new Alert(Alert.AlertType.ERROR, "Please fill in each field with a proper value");
+            alert.showAndWait();
+            return;
         }
 
-        LocalTime startTime = LocalTime.of(startHour, startMinutes);
-        int endHour = Integer.parseInt(String.valueOf(EndHour.getValue()));
-        int endMinutes = Integer.parseInt(String.valueOf(EndMinutes.getValue()));
+        //load widget hierarchy of next screen
+        Parent root = FXMLLoader.load(getClass().getResource("/view/AppointmentView.fxml"));
 
-        if(endAmOrPm == "PM" && endHour < 12) {
-            endHour += 12;
-        }
+        //get the stage from an event's source widget
+        Stage stage = (Stage) ((Node)actionEvent.getSource()).getScene().getWindow();
 
-        LocalTime endTime = LocalTime.of(endHour, endMinutes);
-        LocalDateTime startDateTime = LocalDateTime.of(startDate, startTime);
-        LocalDateTime endDateTime = LocalDateTime.of(endDate, endTime);
-        String createdBy = LoginController.getLoggedInUser().getUsername();
-        LocalDateTime createDate = LocalDateTime.now();
+        //Create the New Scene
+        Scene scene = new Scene(root, 850, 550);
+        stage.setTitle("Appointment View");
 
-        AppointmentDAOImpl.addAppointment(title, description, location, type, startDateTime, endDateTime, createDate, createdBy, createDate, createdBy, customerID, userID, contactID);
+        //Set the scene on the stage
+        stage.setScene(scene);
+
+        //raise the curtain
+        stage.show();
     }
 
+    /**
+     *
+     * @param actionEvent
+     * @throws IOException
+     */
     public void onCancelHandler(ActionEvent actionEvent) throws IOException {
         //load widget hierarchy of next screen
         Parent root = FXMLLoader.load(getClass().getResource("/view/AppointmentView.fxml"));
@@ -100,7 +142,11 @@ public class AddAppointmentController implements Initializable {
     }
 
 
-
+    /**
+     *
+     * @param url
+     * @param resourceBundle
+     */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         Hour.getItems().addAll(1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12);

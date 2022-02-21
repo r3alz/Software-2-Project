@@ -20,6 +20,10 @@ import java.sql.SQLException;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
+/**
+ * Created By Chris Ortiz
+ * Used to control the CustomerView view
+ */
 public class CustomerViewController implements Initializable {
     public TableColumn CustomerID;
     public TableColumn Name;
@@ -34,8 +38,13 @@ public class CustomerViewController implements Initializable {
 
     private static Customer selectedCustomer;
 
+    /**
+     *
+     * @param actionEvent
+     * @throws IOException
+     */
     public void updateCustomerHandler(ActionEvent actionEvent) throws IOException {
-        Customer selectedCustomer = UpdateCustomerTable.getSelectionModel().getSelectedItem();
+        selectedCustomer = UpdateCustomerTable.getSelectionModel().getSelectedItem();
 
         if(selectedCustomer == null) {
             Alert alert = new Alert(Alert.AlertType.ERROR, "Please select a customer");
@@ -60,8 +69,13 @@ public class CustomerViewController implements Initializable {
         stage.show();
     }
 
+    /**
+     *
+     * @param actionEvent
+     * @throws SQLException
+     */
     public void deleteCustomerHandler(ActionEvent actionEvent) throws SQLException {
-        Customer selectedCustomer = UpdateCustomerTable.getSelectionModel().getSelectedItem();
+        selectedCustomer = UpdateCustomerTable.getSelectionModel().getSelectedItem();
 
         if(selectedCustomer == null) {
             Alert alert = new Alert(Alert.AlertType.ERROR, "Please select a customer");
@@ -85,6 +99,11 @@ public class CustomerViewController implements Initializable {
         }
     }
 
+    /**
+     *
+     * @param url
+     * @param resourceBundle
+     */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         CustomerID.setCellValueFactory(new PropertyValueFactory<>("customerID"));
@@ -96,10 +115,19 @@ public class CustomerViewController implements Initializable {
         UpdateCustomerTable.setItems(CustomerDAOImpl.getAllCustomers());
     }
 
+    /**
+     *
+     * @return selectedCustomer
+     */
     public static Customer getSelectedCustomer() {
         return selectedCustomer;
     }
 
+    /**
+     *
+     * @param actionEvent
+     * @throws IOException
+     */
     public void onAddCustomerHandler(ActionEvent actionEvent) throws IOException {
         //load widget hierarchy of next screen
         Parent root = FXMLLoader.load(getClass().getResource("/view/AddCustomer.fxml"));
@@ -118,6 +146,11 @@ public class CustomerViewController implements Initializable {
         stage.show();
     }
 
+    /**
+     *
+     * @param actionEvent
+     * @throws IOException
+     */
     public void onViewAppointmentsHandler(ActionEvent actionEvent) throws IOException {
         //load widget hierarchy of next screen
         Parent root = FXMLLoader.load(getClass().getResource("/view/AppointmentView.fxml"));
@@ -136,9 +169,14 @@ public class CustomerViewController implements Initializable {
         stage.show();
     }
 
+    /**
+     *
+     * @param actionEvent
+     * @throws IOException
+     */
     public void onReportsHandler(ActionEvent actionEvent) throws IOException {
         //load widget hierarchy of next screen
-        Parent root = FXMLLoader.load(getClass().getResource("/view/Reports.fxml"));
+        Parent root = FXMLLoader.load(getClass().getResource("/view/CustomerReport.fxml"));
 
         //get the stage from an event's source widget
         Stage stage = (Stage) ((Node)actionEvent.getSource()).getScene().getWindow();
@@ -154,9 +192,14 @@ public class CustomerViewController implements Initializable {
         stage.show();
     }
 
+    /**
+     *
+     * @param actionEvent
+     * @throws IOException
+     */
     public void onReports2Handler(ActionEvent actionEvent) throws IOException {
         //load widget hierarchy of next screen
-        Parent root = FXMLLoader.load(getClass().getResource("/view/Reports2.fxml"));
+        Parent root = FXMLLoader.load(getClass().getResource("/view/ScheduleReport.fxml"));
 
         //get the stage from an event's source widget
         Stage stage = (Stage) ((Node)actionEvent.getSource()).getScene().getWindow();
@@ -172,9 +215,14 @@ public class CustomerViewController implements Initializable {
         stage.show();
     }
 
+    /**
+     *
+     * @param actionEvent
+     * @throws IOException
+     */
     public void onReports3Handler(ActionEvent actionEvent) throws IOException {
         //load widget hierarchy of next screen
-        Parent root = FXMLLoader.load(getClass().getResource("/view/Reports3.fxml"));
+        Parent root = FXMLLoader.load(getClass().getResource("/view/StateReport.fxml"));
 
         //get the stage from an event's source widget
         Stage stage = (Stage) ((Node)actionEvent.getSource()).getScene().getWindow();

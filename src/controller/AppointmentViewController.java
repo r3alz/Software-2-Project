@@ -28,6 +28,10 @@ import java.util.List;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
+/**
+ * Created By Chris Ortiz
+ * Used to control the AppointmentView view
+ */
 public class AppointmentViewController implements Initializable {
     public TableColumn AppointmentID;
     public TableColumn Title;
@@ -52,6 +56,11 @@ public class AppointmentViewController implements Initializable {
     public Button ReportsButton;
     public Button Reports2Button;
 
+    /**
+     *
+     * @param url
+     * @param resourceBundle
+     */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         AppointmentID.setCellValueFactory(new PropertyValueFactory<>("appointmentID"));
@@ -67,6 +76,11 @@ public class AppointmentViewController implements Initializable {
         AppointmentTable.setItems(AppointmentDAOImpl.getAllAppointments());
     }
 
+    /**
+     *
+     * @param actionEvent
+     * @throws IOException
+     */
     public void onUpdateAppointment(ActionEvent actionEvent) throws IOException {
         selectedAppointment = AppointmentTable.getSelectionModel().getSelectedItem();
 
@@ -93,8 +107,13 @@ public class AppointmentViewController implements Initializable {
         stage.show();
     }
 
+    /**
+     *
+     * @param actionEvent
+     * @throws SQLException
+     */
     public void onDeleteAppointment(ActionEvent actionEvent) throws SQLException {
-        Appointment selectedAppointment = AppointmentTable.getSelectionModel().getSelectedItem();
+        selectedAppointment = AppointmentTable.getSelectionModel().getSelectedItem();
 
         if(selectedAppointment == null) {
             Alert alert = new Alert(Alert.AlertType.ERROR, "Please select a appointment");
@@ -112,6 +131,11 @@ public class AppointmentViewController implements Initializable {
         }
     }
 
+    /**
+     *
+     * @param actionEvent
+     * @throws IOException
+     */
     public void onAddAppointment(ActionEvent actionEvent) throws IOException {
         //load widget hierarchy of next screen
         Parent root = FXMLLoader.load(getClass().getResource("/view/AddAppointment.fxml"));
@@ -130,6 +154,11 @@ public class AppointmentViewController implements Initializable {
         stage.show();
     }
 
+    /**
+     *
+     * @param actionEvent
+     * @throws IOException
+     */
     public void onCustomerViewHandler(ActionEvent actionEvent) throws IOException {
         //load widget hierarchy of next screen
         Parent root = FXMLLoader.load(getClass().getResource("/view/CustomerView.fxml"));
@@ -148,10 +177,18 @@ public class AppointmentViewController implements Initializable {
         stage.show();
     }
 
+    /**
+     *
+     * @return selectedAppointment
+     */
     public static Appointment getSelectedAppointment() {
         return selectedAppointment;
     }
 
+    /**
+     *
+     * @param actionEvent
+     */
     public void onViewWeekHandler(ActionEvent actionEvent) {
         ObservableList<Appointment> appointments = AppointmentDAOImpl.getAllAppointments();
         ObservableList<Appointment> tempList = FXCollections.observableArrayList();
@@ -191,6 +228,10 @@ public class AppointmentViewController implements Initializable {
         AppointmentTable.setItems(tempList);
     }
 
+    /**
+     *
+     * @param actionEvent
+     */
     public void onViewMonthHandler(ActionEvent actionEvent) {
         ObservableList<Appointment> appointments = AppointmentDAOImpl.getAllAppointments();
         ObservableList<Appointment> tempList = FXCollections.observableArrayList();
@@ -224,13 +265,22 @@ public class AppointmentViewController implements Initializable {
         AppointmentTable.setItems(tempList);
     }
 
+    /**
+     *
+     * @param actionEvent
+     */
     public void onViewAllHandler(ActionEvent actionEvent) {
         AppointmentTable.setItems(AppointmentDAOImpl.getAllAppointments());
     }
 
+    /**
+     *
+     * @param actionEvent
+     * @throws IOException
+     */
     public void onReportsHandler(ActionEvent actionEvent) throws IOException {
         //load widget hierarchy of next screen
-        Parent root = FXMLLoader.load(getClass().getResource("/view/Reports.fxml"));
+        Parent root = FXMLLoader.load(getClass().getResource("/view/CustomerReport.fxml"));
 
         //get the stage from an event's source widget
         Stage stage = (Stage) ((Node)actionEvent.getSource()).getScene().getWindow();
@@ -246,9 +296,14 @@ public class AppointmentViewController implements Initializable {
         stage.show();
     }
 
+    /**
+     *
+     * @param actionEvent
+     * @throws IOException
+     */
     public void onReports2Handler(ActionEvent actionEvent) throws IOException {
         //load widget hierarchy of next screen
-        Parent root = FXMLLoader.load(getClass().getResource("/view/Reports2.fxml"));
+        Parent root = FXMLLoader.load(getClass().getResource("/view/ScheduleReport.fxml"));
 
         //get the stage from an event's source widget
         Stage stage = (Stage) ((Node)actionEvent.getSource()).getScene().getWindow();
@@ -264,9 +319,14 @@ public class AppointmentViewController implements Initializable {
         stage.show();
     }
 
+    /**
+     *
+     * @param actionEvent
+     * @throws IOException
+     */
     public void onReports3Handler(ActionEvent actionEvent) throws IOException {
         //load widget hierarchy of next screen
-        Parent root = FXMLLoader.load(getClass().getResource("/view/Reports3.fxml"));
+        Parent root = FXMLLoader.load(getClass().getResource("/view/StateReport.fxml"));
 
         //get the stage from an event's source widget
         Stage stage = (Stage) ((Node)actionEvent.getSource()).getScene().getWindow();

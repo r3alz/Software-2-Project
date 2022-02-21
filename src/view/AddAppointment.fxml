@@ -28,16 +28,22 @@
       <Button fx:id="Cancel" layoutX="253.0" layoutY="365.0" mnemonicParsing="false" onAction="#onCancelHandler" text="Cancel" />
       <DatePicker fx:id="StartDate" layoutX="384.0" layoutY="25.0" />
       <Label layoutX="305.0" layoutY="29.0" text="Start Date" />
-      <Label layoutX="305.0" layoutY="71.0" text="Start Time" />
-      <ComboBox fx:id="Hour" layoutX="384.0" layoutY="67.0" prefHeight="25.0" prefWidth="46.0" />
-      <ComboBox fx:id="Minutes" layoutX="450.0" layoutY="67.0" prefHeight="25.0" prefWidth="46.0" />
-      <ComboBox fx:id="AmOrPm" layoutX="517.0" layoutY="67.0" prefWidth="46.0" />
+      <Label layoutX="306.0" layoutY="76.0" text="Start Time" />
+      <ComboBox fx:id="Hour" layoutX="384.0" layoutY="73.0" prefHeight="25.0" prefWidth="61.0" />
+      <ComboBox fx:id="Minutes" layoutX="450.0" layoutY="73.0" prefHeight="25.0" prefWidth="61.0" />
+      <ComboBox fx:id="AmOrPm" layoutX="517.0" layoutY="73.0" prefHeight="25.0" prefWidth="61.0" />
       <DatePicker fx:id="EndDate" layoutX="387.0" layoutY="115.0" />
       <Label layoutX="308.0" layoutY="119.0" text="End Date" />
-      <Label layoutX="308.0" layoutY="165.0" text="End Time" />
-      <ComboBox fx:id="EndHour" layoutX="387.0" layoutY="161.0" prefHeight="25.0" prefWidth="46.0" />
-      <ComboBox fx:id="EndMinutes" layoutX="453.0" layoutY="161.0" prefHeight="25.0" prefWidth="46.0" />
-      <ComboBox fx:id="EndAmOrPm" layoutX="520.0" layoutY="161.0" prefWidth="46.0" />
+      <Label layoutX="309.0" layoutY="170.0" text="End Time" />
+      <ComboBox fx:id="EndHour" layoutX="387.0" layoutY="167.0" prefHeight="25.0" prefWidth="61.0" />
+      <ComboBox fx:id="EndMinutes" layoutX="453.0" layoutY="167.0" prefHeight="25.0" prefWidth="61.0" />
+      <ComboBox fx:id="EndAmOrPm" layoutX="520.0" layoutY="167.0" prefHeight="25.0" prefWidth="61.0" />
       <ComboBox fx:id="ContactBox" layoutX="122.0" layoutY="188.0" prefWidth="150.0" />
+      <Label layoutX="403.0" layoutY="54.0" text="Hour" />
+      <Label layoutX="462.0" layoutY="54.0" text="Minute" />
+      <Label layoutX="529.0" layoutY="54.0" text="AM/PM" />
+      <Label layoutX="403.0" layoutY="147.0" text="Hour" />
+      <Label layoutX="465.0" layoutY="147.0" text="Minute" />
+      <Label layoutX="529.0" layoutY="147.0" text="AM/PM" />
    </children>
 </AnchorPane>

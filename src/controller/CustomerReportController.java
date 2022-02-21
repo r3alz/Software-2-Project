@@ -23,7 +23,11 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.ResourceBundle;
 
-public class ReportsController implements Initializable {
+/**
+ * Created By Chris Ortiz
+ * Used to control the CustomerReport view
+ */
+public class CustomerReportController implements Initializable {
 
     public TableView ReportTable;
     public TableColumn<Map, String> CustomerID;
@@ -65,6 +69,11 @@ public class ReportsController implements Initializable {
         ReportTable.setItems(items);
     }
 
+    /**
+     *
+     * @param actionEvent
+     * @throws IOException
+     */
     public void onBackHandler(ActionEvent actionEvent) throws IOException {
         //load widget hierarchy of next screen
         Parent root = FXMLLoader.load(getClass().getResource("/view/AppointmentView.fxml"));

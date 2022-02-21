@@ -7,25 +7,25 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="400.0" prefWidth="697.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.Reports2Controller">
+<AnchorPane prefHeight="400.0" prefWidth="710.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.StateReportController">
    <children>
-      <TableView fx:id="Reports2Table" layoutX="39.0" layoutY="93.0" prefHeight="200.0" prefWidth="616.0">
-        <columns>
-          <TableColumn fx:id="ContactName" prefWidth="111.0" text="Contact Name" />
-          <TableColumn fx:id="AppointmentID" prefWidth="114.0" text="Appointment ID" />
+      <TableView fx:id="Reports3Table" layoutX="47.0" layoutY="90.0" prefHeight="200.0" prefWidth="616.0">
+         <columns>
+            <TableColumn fx:id="State" prefWidth="111.0" text="State" />
+            <TableColumn fx:id="AppointmentID" prefWidth="114.0" text="Appointment ID" />
             <TableColumn fx:id="Title" minWidth="0.0" prefWidth="0.0" text="Title" />
             <TableColumn fx:id="Type" prefWidth="72.0" text="Type" />
             <TableColumn fx:id="Description" prefWidth="78.0" text="Description" />
             <TableColumn fx:id="Start" prefWidth="75.0" text="Start" />
             <TableColumn fx:id="End" prefWidth="75.0" text="End" />
             <TableColumn fx:id="CustomerID" prefWidth="89.0" text="Customer ID" />
-        </columns>
+         </columns>
       </TableView>
-      <Label layoutX="214.0" layoutY="40.0" text="Contacts Schedule Report">
+      <Button fx:id="Back" layoutX="14.0" layoutY="14.0" mnemonicParsing="false" onAction="#onBackHandler" text="&lt;--- Back" />
+      <Label layoutX="197.0" layoutY="39.0" text="Appointments by State Report">
          <font>
             <Font name="System Bold" size="22.0" />
          </font>
       </Label>
-      <Button fx:id="Back" layoutX="13.0" layoutY="14.0" mnemonicParsing="false" onAction="#onBackHandler" text="&lt;--- Back" />
    </children>
 </AnchorPane>

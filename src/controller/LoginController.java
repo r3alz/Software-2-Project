@@ -23,6 +23,10 @@ import java.time.ZoneId;
 import java.util.Locale;
 import java.util.ResourceBundle;
 
+/**
+ * Created By Chris Ortiz
+ * Used to control the Login view
+ */
 public class LoginController implements Initializable {
 
     public TextField UserID;
@@ -53,57 +57,75 @@ public class LoginController implements Initializable {
         }
     }
 
+    /**
+     *
+     * @param actionEvent
+     * @throws IOException
+     */
     public void onSignIn(ActionEvent actionEvent) throws IOException {
         ObservableList<User> userList = UserDAOImpl.getAllUsers();
-        int userID = Integer.parseInt(UserID.getText());
-        String password = Password.getText().trim();
-        for(User u: userList) {
-            count += 1;
-            if(u.getId().equals(userID) && u.getPassword().equals(password)) {
-                loggedInUser.setId(u.getId());
-                loggedInUser.setUsername(u.getUsername());
 
-                LoginTracker.loginSuccess(u.getUsername());
+        try {
+            String userID = UserID.getText();
+            String password = Password.getText().trim();
+            for (User u : userList) {
+                count += 1;
+                if (u.getUsername().equals(userID) && u.getPassword().equals(password)) {
+                    loggedInUser.setId(u.getId());
+                    loggedInUser.setUsername(u.getUsername());
 
-                //load widget hierarchy of next screen
-                Parent root = FXMLLoader.load(getClass().getResource("/view/AppointmentView.fxml"));
+                    LoginTracker.loginSuccess(u.getUsername());
 
-                //get the stage from an event's source widget
-                Stage stage = (Stage) ((Node)actionEvent.getSource()).getScene().getWindow();
+                    //load widget hierarchy of next screen
+                    Parent root = FXMLLoader.load(getClass().getResource("/view/AppointmentView.fxml"));
 
-                //Create the New Scene
-                Scene scene = new Scene(root, 850, 550);
-                stage.setTitle("Customer View");
+                    //get the stage from an event's source widget
+                    Stage stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
 
-                //Set the scene on the stage
-                stage.setScene(scene);
+                    //Create the New Scene
+                    Scene scene = new Scene(root, 850, 550);
+                    stage.setTitle("Customer View");
 
-                //raise the curtain
-                stage.show();
+                    //Set the scene on the stage
+                    stage.setScene(scene);
 
-                AppointmentDAOImpl.getAppointmentAlert();
+                    //raise the curtain
+                    stage.show();
 
-                return;
-            }
-            else if(count == userList.size()) {
-                count = 0;
+                    AppointmentDAOImpl.getAppointmentAlert();
 
-                LoginTracker.loginFailed(UserID.getText());
+                    return;
+                } else if (count == userList.size()) {
+                    count = 0;
 
-                try {
-                    ResourceBundle rb = ResourceBundle.getBundle("Nat", Locale.getDefault());
-                    if(Locale.getDefault().getLanguage().equals("en") || Locale.getDefault().getLanguage().equals("fr")) {
-                        Alert alert = new Alert(Alert.AlertType.ERROR, rb.getString("alert"));
-                        alert.showAndWait();
-                        return;
+                    LoginTracker.loginFailed(UserID.getText());
+
+                    try {
+                        ResourceBundle rb = ResourceBundle.getBundle("Nat", Locale.getDefault());
+                        if (Locale.getDefault().getLanguage().equals("en") || Locale.getDefault().getLanguage().equals("fr")) {
+                            Alert alert = new Alert(Alert.AlertType.ERROR, rb.getString("alert"));
+                            alert.showAndWait();
+                            return;
+                        }
+                    } catch (Exception e) {
+                        e.printStackTrace();
                     }
-                } catch (Exception e) {
-                    e.printStackTrace();
                 }
+            }
+        } catch (Exception e) {
+            ResourceBundle rb = ResourceBundle.getBundle("Nat", Locale.getDefault());
+            if (Locale.getDefault().getLanguage().equals("en") || Locale.getDefault().getLanguage().equals("fr")) {
+                Alert alert = new Alert(Alert.AlertType.ERROR, rb.getString("alert"));
+                alert.showAndWait();
+                return;
             }
         }
     }
 
+    /**
+     *
+     * @return loggedInUser
+     */
     public static User getLoggedInUser() {
         return loggedInUser;
     }

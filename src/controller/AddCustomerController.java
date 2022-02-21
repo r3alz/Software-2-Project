@@ -23,6 +23,10 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ResourceBundle;
 
+/**
+ * Created By Chris Ortiz
+ * Used to control the AddCustomer view
+ */
 public class AddCustomerController implements Initializable {
     public TextField CustomerName;
     public TextField Address;
@@ -37,6 +41,12 @@ public class AddCustomerController implements Initializable {
     private ObservableList<Division> statesList = DivisionDAOImpl.getAllDivisions();
     private ObservableList<model.Country> countriesList = CountryDAOImpl.getAllCountries();
 
+    /**
+     *
+     * @param actionEvent
+     * @throws SQLException
+     * @throws IOException
+     */
     public void onAddCustomerHandler(ActionEvent actionEvent) throws SQLException, IOException {
         try {
             Division d = (Division) StateCombo.getSelectionModel().getSelectedItem();
@@ -102,12 +112,21 @@ public class AddCustomerController implements Initializable {
         stage.show();
     }
 
+    /**
+     *
+     * @param url
+     * @param resourceBundle
+     */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         StateCombo.setItems(statesList);
         CountryCombo.setItems(countriesList);
     }
 
+    /**
+     *
+     * @param actionEvent
+     */
     public void onCountryHandler(ActionEvent actionEvent) {
         Country selc = (Country) CountryCombo.getSelectionModel().getSelectedItem();
         ObservableList<Division> tempList = FXCollections.observableArrayList();
@@ -124,6 +143,11 @@ public class AddCustomerController implements Initializable {
         StateCombo.setItems(tempList);
     }
 
+    /**
+     *
+     * @param actionEvent
+     * @throws IOException
+     */
     public void onCancelHandler(ActionEvent actionEvent) throws IOException {
         //load widget hierarchy of next screen
         Parent root = FXMLLoader.load(getClass().getResource("/view/CustomerView.fxml"));

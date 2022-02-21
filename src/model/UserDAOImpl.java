@@ -8,8 +8,17 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+/**
+ * Created By Chris Ortiz
+ * UserDAOImpl class is used for storing the function to get all of the execute SQL query to store the user information
+ */
+
 public class UserDAOImpl {
 
+    /**
+     * Executes a SQL Query, stores them into variable values, then adds them to an list of Users
+     * @return an observableArrayList of Users
+     */
     public static ObservableList<User> getAllUsers() {
         ObservableList<User> uList = FXCollections.observableArrayList();
 
