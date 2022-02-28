@@ -40,6 +40,11 @@ public class LoginController implements Initializable {
     private int count = 0;
     private static User loggedInUser = new User(0, null, null);
 
+    /**
+     * This will initialize the scene
+     * @param url
+     * @param resourceBundle
+     */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         ZoneId zone = ZoneId.systemDefault();
@@ -58,72 +63,61 @@ public class LoginController implements Initializable {
     }
 
     /**
-     *
-     * @param actionEvent
-     * @throws IOException
+     * This will be used when a user signs in
+     * @param actionEvent on click of the sign in button
      */
     public void onSignIn(ActionEvent actionEvent) throws IOException {
         ObservableList<User> userList = UserDAOImpl.getAllUsers();
+        String userID = UserID.getText();
+        String password = Password.getText().trim();
+        for (User u : userList) {
+            count += 1;
+            if (u.getUsername().equals(userID) && u.getPassword().equals(password)) {
+                loggedInUser.setId(u.getId());
+                loggedInUser.setUsername(u.getUsername());
 
-        try {
-            String userID = UserID.getText();
-            String password = Password.getText().trim();
-            for (User u : userList) {
-                count += 1;
-                if (u.getUsername().equals(userID) && u.getPassword().equals(password)) {
-                    loggedInUser.setId(u.getId());
-                    loggedInUser.setUsername(u.getUsername());
+                LoginTracker.loginSuccess(u.getUsername());
 
-                    LoginTracker.loginSuccess(u.getUsername());
+                //load widget hierarchy of next screen
+                Parent root = FXMLLoader.load(getClass().getResource("/view/AppointmentView.fxml"));
 
-                    //load widget hierarchy of next screen
-                    Parent root = FXMLLoader.load(getClass().getResource("/view/AppointmentView.fxml"));
+                //get the stage from an event's source widget
+                Stage stage = (Stage) ((Node)actionEvent.getSource()).getScene().getWindow();
 
-                    //get the stage from an event's source widget
-                    Stage stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
+                //Create the New Scene
+                Scene scene = new Scene(root, 850, 550);
+                stage.setTitle("Appointment View");
 
-                    //Create the New Scene
-                    Scene scene = new Scene(root, 850, 550);
-                    stage.setTitle("Customer View");
+                //Set the scene on the stage
+                stage.setScene(scene);
 
-                    //Set the scene on the stage
-                    stage.setScene(scene);
+                //raise the curtain
+                stage.show();
 
-                    //raise the curtain
-                    stage.show();
+                AppointmentDAOImpl.getAppointmentAlert();
 
-                    AppointmentDAOImpl.getAppointmentAlert();
-
-                    return;
-                } else if (count == userList.size()) {
-                    count = 0;
-
-                    LoginTracker.loginFailed(UserID.getText());
-
-                    try {
-                        ResourceBundle rb = ResourceBundle.getBundle("Nat", Locale.getDefault());
-                        if (Locale.getDefault().getLanguage().equals("en") || Locale.getDefault().getLanguage().equals("fr")) {
-                            Alert alert = new Alert(Alert.AlertType.ERROR, rb.getString("alert"));
-                            alert.showAndWait();
-                            return;
-                        }
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
-                }
-            }
-        } catch (Exception e) {
-            ResourceBundle rb = ResourceBundle.getBundle("Nat", Locale.getDefault());
-            if (Locale.getDefault().getLanguage().equals("en") || Locale.getDefault().getLanguage().equals("fr")) {
-                Alert alert = new Alert(Alert.AlertType.ERROR, rb.getString("alert"));
-                alert.showAndWait();
                 return;
+            } else if (count == userList.size()) {
+                count = 0;
+
+                LoginTracker.loginFailed(UserID.getText());
+
+                try {
+                    ResourceBundle rb = ResourceBundle.getBundle("Nat", Locale.getDefault());
+                    if (Locale.getDefault().getLanguage().equals("en") || Locale.getDefault().getLanguage().equals("fr")) {
+                        Alert alert = new Alert(Alert.AlertType.ERROR, rb.getString("alert"));
+                        alert.showAndWait();
+                        return;
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
             }
         }
     }
 
     /**
-     *
+     * this will return the logged in user
      * @return loggedInUser
      */
     public static User getLoggedInUser() {

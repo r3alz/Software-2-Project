@@ -19,6 +19,8 @@ import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
 import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
 import java.util.ResourceBundle;
 
 /**
@@ -40,12 +42,14 @@ public class UpdateCustomerController implements Initializable {
     private ObservableList<model.Country> countriesList = CountryDAOImpl.getAllCountries();
 
     /**
-     *
-     * @param actionEvent
+     * This will be used when a country is selected
+     * .forEach lambda is used in this method since it iterates efficiently
+     * @param actionEvent on selection of a country
      */
     public void onCountryHandler(ActionEvent actionEvent) {
         Country selc = (Country) CountryCombo.getSelectionModel().getSelectedItem();
         ObservableList<Division> tempList = FXCollections.observableArrayList();
+        // .forEach lambda is used here since it iterates efficiently
         statesList.forEach(d -> {
            if (selc.getCountryID() == d.getCountryID()) {
                tempList.add(d);
@@ -55,8 +59,8 @@ public class UpdateCustomerController implements Initializable {
     }
 
     /**
-     *
-     * @param actionEvent
+     * This is used to update a customer
+     * @param actionEvent on click of update customer
      * @throws SQLException
      * @throws IOException
      */
@@ -71,7 +75,10 @@ public class UpdateCustomerController implements Initializable {
             String lastUpdatedBy = LoginController.getLoggedInUser().getUsername();
             int divisionID = StateCombo.getSelectionModel().getSelectedItem().getDivisionID();
 
-            CustomerDAOImpl.updateCustomer(customerID, customerName, address, postalCode, phone, lastUpdate, lastUpdatedBy, divisionID);
+            ZonedDateTime lastUpdateZoned = lastUpdate.atZone(ZoneId.systemDefault());
+            ZonedDateTime zLastUpdate = lastUpdateZoned.withZoneSameInstant(ZoneId.of("UTC"));
+
+            CustomerDAOImpl.updateCustomer(customerID, customerName, address, postalCode, phone, zLastUpdate, lastUpdatedBy, divisionID);
         } catch (Exception e) {
             Alert alert = new Alert(Alert.AlertType.ERROR, "Please fill in each field with a proper value");
             alert.showAndWait();
@@ -96,7 +103,7 @@ public class UpdateCustomerController implements Initializable {
     }
 
     /**
-     *
+     * This will initialize the scene
      * @param url
      * @param resourceBundle
      */
@@ -140,8 +147,8 @@ public class UpdateCustomerController implements Initializable {
     }
 
     /**
-     *
-     * @param actionEvent
+     * This is used to cancel updating a customer and sends you back to customer view
+     * @param actionEvent on click of cancel button
      * @throws IOException
      */
     public void onCancelHandler(ActionEvent actionEvent) throws IOException {

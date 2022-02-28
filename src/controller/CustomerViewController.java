@@ -30,6 +30,8 @@ public class CustomerViewController implements Initializable {
     public TableColumn Address;
     public TableColumn PostalCode;
     public TableColumn PhoneNumber;
+    public TableColumn Division;
+    public TableColumn Country;
     public Button UpdateCustomer;
     public Button DeleteCustomer;
     public TableView<Customer> UpdateCustomerTable;
@@ -39,8 +41,8 @@ public class CustomerViewController implements Initializable {
     private static Customer selectedCustomer;
 
     /**
-     *
-     * @param actionEvent
+     * This is used to update a customer
+     * @param actionEvent on click of the update customer button
      * @throws IOException
      */
     public void updateCustomerHandler(ActionEvent actionEvent) throws IOException {
@@ -70,8 +72,8 @@ public class CustomerViewController implements Initializable {
     }
 
     /**
-     *
-     * @param actionEvent
+     * This is used to delete a selected customer
+     * @param actionEvent on click of the delete customer button
      * @throws SQLException
      */
     public void deleteCustomerHandler(ActionEvent actionEvent) throws SQLException {
@@ -100,7 +102,7 @@ public class CustomerViewController implements Initializable {
     }
 
     /**
-     *
+     * this will initialize the scene
      * @param url
      * @param resourceBundle
      */
@@ -111,21 +113,24 @@ public class CustomerViewController implements Initializable {
         Address.setCellValueFactory(new PropertyValueFactory<>("address"));
         PostalCode.setCellValueFactory(new PropertyValueFactory<>("postalCode"));
         PhoneNumber.setCellValueFactory(new PropertyValueFactory<>("phone"));
+        Country.setCellValueFactory(new PropertyValueFactory<>("country"));
+        Division.setCellValueFactory(new PropertyValueFactory<>("firstLevelDivision"));
+
 
         UpdateCustomerTable.setItems(CustomerDAOImpl.getAllCustomers());
     }
 
     /**
-     *
-     * @return selectedCustomer
+     * This will return the selected customer
+     * @return selectedCustomer selected on the table
      */
     public static Customer getSelectedCustomer() {
         return selectedCustomer;
     }
 
     /**
-     *
-     * @param actionEvent
+     * This is used to add a customer
+     * @param actionEvent on click of the add customer button
      * @throws IOException
      */
     public void onAddCustomerHandler(ActionEvent actionEvent) throws IOException {
@@ -147,8 +152,8 @@ public class CustomerViewController implements Initializable {
     }
 
     /**
-     *
-     * @param actionEvent
+     * this is used to see appointments
+     * @param actionEvent on click of the appointment view button
      * @throws IOException
      */
     public void onViewAppointmentsHandler(ActionEvent actionEvent) throws IOException {
@@ -170,8 +175,8 @@ public class CustomerViewController implements Initializable {
     }
 
     /**
-     *
-     * @param actionEvent
+     * this is used to view the customer report
+     * @param actionEvent on click of the customer report button
      * @throws IOException
      */
     public void onReportsHandler(ActionEvent actionEvent) throws IOException {
@@ -193,8 +198,8 @@ public class CustomerViewController implements Initializable {
     }
 
     /**
-     *
-     * @param actionEvent
+     * This is used to view the schedule report
+     * @param actionEvent on click of the schedule report button
      * @throws IOException
      */
     public void onReports2Handler(ActionEvent actionEvent) throws IOException {
@@ -216,8 +221,8 @@ public class CustomerViewController implements Initializable {
     }
 
     /**
-     *
-     * @param actionEvent
+     * This is used to view state report
+     * @param actionEvent on click of the state report button
      * @throws IOException
      */
     public void onReports3Handler(ActionEvent actionEvent) throws IOException {

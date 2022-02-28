@@ -17,9 +17,7 @@ import model.ContactDAOImpl;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.LocalTime;
+import java.time.*;
 import java.util.ResourceBundle;
 
 /**
@@ -50,8 +48,8 @@ public class UpdateAppointmentController implements Initializable {
     private ObservableList<model.Contact> contactsList = ContactDAOImpl.getAllContacts();
 
     /**
-     *
-     * @param actionEvent
+     * This is used to update an appointment
+     * @param actionEvent on click of the update appoitnment button
      * @throws SQLException
      * @throws IOException
      */
@@ -91,7 +89,27 @@ public class UpdateAppointmentController implements Initializable {
             String lastUpdatedBy = LoginController.getLoggedInUser().getUsername();
             LocalDateTime lastUpdate = LocalDateTime.now();
 
-            AppointmentDAOImpl.updateAppointment(appointmentID, title, description, location, type, startDateTime, endDateTime, lastUpdate, lastUpdatedBy, customerID, userID, contactID);
+            ZonedDateTime startDateTimeZoned = startDateTime.atZone(ZoneId.systemDefault());
+            ZonedDateTime zStartDateTime = startDateTimeZoned.withZoneSameInstant(ZoneId.of("UTC"));
+            ZonedDateTime endDateTimeZoned = endDateTime.atZone(ZoneId.systemDefault());
+            ZonedDateTime zEndDateTime = endDateTimeZoned.withZoneSameInstant(ZoneId.of("UTC"));
+            ZonedDateTime lastUpdateZoned = lastUpdate.atZone(ZoneId.systemDefault());
+            ZonedDateTime zLastUpdate = lastUpdateZoned.withZoneSameInstant(ZoneId.of("UTC"));
+
+            Boolean appointmentOverlapOnUpdate = AppointmentDAOImpl.appointmentOverlapOnUpdate(startDateTime, endDateTime, appointmentID);
+            Boolean appointmentDuringHours = AppointmentDAOImpl.appointmentDuringHours(startDateTime, endDateTime);
+
+            if(!appointmentOverlapOnUpdate && appointmentDuringHours) {
+                AppointmentDAOImpl.updateAppointment(appointmentID, title, description, location, type, zStartDateTime, zEndDateTime, zLastUpdate, lastUpdatedBy, customerID, userID, contactID);
+            } else if(appointmentOverlapOnUpdate) {
+                Alert alert = new Alert(Alert.AlertType.ERROR, "This appointment would overlap with another appointment.  Please change the dates and time.");
+                alert.showAndWait();
+                return;
+            } else {
+                Alert alert = new Alert(Alert.AlertType.ERROR, "This appointment is outside of business hours");
+                alert.showAndWait();
+                return;
+            }
         } catch (Exception e) {
             Alert alert = new Alert(Alert.AlertType.ERROR, "Please fill in each field with a proper value");
             alert.showAndWait();
@@ -116,7 +134,8 @@ public class UpdateAppointmentController implements Initializable {
     }
 
     /**
-     *
+     * this will initialize the scene
+     * .forEach lambda is used in this method since it iterates efficiently
      * @param url
      * @param resourceBundle
      */
@@ -147,6 +166,7 @@ public class UpdateAppointmentController implements Initializable {
         Minutes.setValue(appointment.getStartDateTime().getMinute());
         EndMinutes.setValue(appointment.getEndDateTime().getMinute());
 
+        // .forEach lambda is used here since it iterates efficiently
         contactsList.forEach(c -> {
             if(c.getContactID() == appointment.getContactID()) {
                 ContactBox.setValue(c);
@@ -173,8 +193,8 @@ public class UpdateAppointmentController implements Initializable {
     }
 
     /**
-     *
-     * @param actionEvent
+     * this is used to cancel updating an appointment and go back to appointment view
+     * @param actionEvent on click of the cancel button
      * @throws IOException
      */
     public void onCancelHandler(ActionEvent actionEvent) throws IOException {

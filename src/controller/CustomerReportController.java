@@ -35,6 +35,11 @@ public class CustomerReportController implements Initializable {
     public TableColumn<Map, String> Title;
     public TableColumn<Map, String> Total;
 
+    /**
+     * This will initialize the scene
+     * @param url
+     * @param resourceBundle
+     */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         ObservableList<Map<String, Object>> items = FXCollections.observableArrayList();
@@ -70,8 +75,8 @@ public class CustomerReportController implements Initializable {
     }
 
     /**
-     *
-     * @param actionEvent
+     * This will take you back to the appointment view scene
+     * @param actionEvent on click of the back button
      * @throws IOException
      */
     public void onBackHandler(ActionEvent actionEvent) throws IOException {

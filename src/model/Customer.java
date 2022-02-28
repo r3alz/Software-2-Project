@@ -9,6 +9,8 @@ import java.util.Date;
 public class Customer {
     private int customerID;
     private int divisionID;
+    private String firstLevelDivision;
+    private String country;
     private String customerName;
     private String address;
     private String postalCode;
@@ -31,7 +33,7 @@ public class Customer {
      * @param lastUpdate initial lastUpdate
      * @param lastUpdatedBy initial lastUpdatedBy
      */
-    public Customer(int customerID, String customerName, int divisionID, String address, String postalCode, String phone, Date createDate, String createdBy, Date lastUpdate, String lastUpdatedBy) {
+    public Customer(int customerID, String customerName, int divisionID, String address, String postalCode, String phone, Date createDate, String createdBy, Date lastUpdate, String lastUpdatedBy, String firstLevelDivision, String country) {
         this.customerID = customerID;
         this.customerName = customerName;
         this.divisionID = divisionID;
@@ -42,6 +44,8 @@ public class Customer {
         this.createdBy = createdBy;
         this.lastUpdate = lastUpdate;
         this.lastUpdatedBy = lastUpdatedBy;
+        this.firstLevelDivision = firstLevelDivision;
+        this.country = country;
     }
 
     /**
@@ -219,4 +223,12 @@ public class Customer {
     public void setLastUpdatedBy(String lastUpdatedBy) {
         this.lastUpdatedBy = lastUpdatedBy;
     }
+
+    public String getFirstLevelDivision() {return firstLevelDivision;}
+
+    public void setFirstLevelDivision(String firstLevelDivision) {this.firstLevelDivision = firstLevelDivision;}
+
+    public String getCountry() {return country;};
+
+    public void setCountry(String country) {this.country = country;}
 }

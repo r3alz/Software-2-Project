@@ -13,29 +13,30 @@
 
 <AnchorPane prefHeight="520.0" prefWidth="881.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.AppointmentViewController">
    <children>
-      <TableView fx:id="AppointmentTable" layoutX="96.0" layoutY="171.0" prefHeight="200.0" prefWidth="675.0">
+      <TableView fx:id="AppointmentTable" layoutX="43.0" layoutY="172.0" prefHeight="200.0" prefWidth="799.0">
         <columns>
-          <TableColumn fx:id="AppointmentID" prefWidth="75.0" text="Appointment ID" />
-          <TableColumn fx:id="Title" prefWidth="75.0" text="Title" />
-            <TableColumn fx:id="Description" prefWidth="75.0" text="Description" />
-            <TableColumn fx:id="Location" prefWidth="75.0" text="Location" />
+          <TableColumn fx:id="AppointmentID" prefWidth="98.0" text="Appointment ID" />
+          <TableColumn fx:id="Title" prefWidth="63.0" text="Title" />
+            <TableColumn fx:id="Description" prefWidth="74.0" text="Description" />
+            <TableColumn fx:id="Location" prefWidth="65.0" text="Location" />
             <TableColumn fx:id="Type" prefWidth="75.0" text="Type" />
-            <TableColumn fx:id="StartDateTime" prefWidth="75.0" text="Start Date &amp; Time" />
-            <TableColumn fx:id="EndDateTime" prefWidth="75.0" text="End Date &amp; Time" />
-            <TableColumn fx:id="CustomerID" prefWidth="75.0" text="Customer ID" />
-            <TableColumn fx:id="UserID" prefWidth="75.0" text="User ID" />
+            <TableColumn fx:id="StartDateTime" prefWidth="110.0" text="Start Date &amp; Time" />
+            <TableColumn fx:id="EndDateTime" prefWidth="105.0" text="End Date &amp; Time" />
+            <TableColumn fx:id="Contact" prefWidth="78.0" text="Contact" />
+            <TableColumn fx:id="UserID" prefWidth="49.0" text="User ID" />
+            <TableColumn fx:id="CustomerID" prefWidth="81.0" text="Customer ID" />
         </columns>
       </TableView>
-      <Button fx:id="UpdateAppointment" layoutX="228.0" layoutY="410.0" mnemonicParsing="false" onAction="#onUpdateAppointment" text="Update Appointment" />
-      <Button fx:id="DeleteAppointment" layoutX="380.0" layoutY="410.0" mnemonicParsing="false" onAction="#onDeleteAppointment" text="Delete Appointment" />
-      <Button fx:id="AddAppointment" layoutX="96.0" layoutY="410.0" mnemonicParsing="false" onAction="#onAddAppointment" text="Add Appointment" />
-      <RadioButton fx:id="ViewWeek" layoutX="96.0" layoutY="140.0" mnemonicParsing="false" onAction="#onViewWeekHandler" text="View Week">
+      <Button fx:id="UpdateAppointment" layoutX="175.0" layoutY="391.0" mnemonicParsing="false" onAction="#onUpdateAppointment" text="Update Appointment" />
+      <Button fx:id="DeleteAppointment" layoutX="327.0" layoutY="391.0" mnemonicParsing="false" onAction="#onDeleteAppointment" text="Delete Appointment" />
+      <Button fx:id="AddAppointment" layoutX="43.0" layoutY="391.0" mnemonicParsing="false" onAction="#onAddAppointment" text="Add Appointment" />
+      <RadioButton fx:id="ViewWeek" layoutX="43.0" layoutY="140.0" mnemonicParsing="false" onAction="#onViewWeekHandler" text="View Week">
          <toggleGroup>
             <ToggleGroup fx:id="tgroup" />
          </toggleGroup>
       </RadioButton>
-      <RadioButton fx:id="ViewMonth" layoutX="219.0" layoutY="140.0" mnemonicParsing="false" onAction="#onViewMonthHandler" text="View Month" toggleGroup="$tgroup" />
-      <RadioButton fx:id="ViewAll" layoutX="348.0" layoutY="140.0" mnemonicParsing="false" onAction="#onViewAllHandler" text="View All" toggleGroup="$tgroup" />
+      <RadioButton fx:id="ViewMonth" layoutX="166.0" layoutY="140.0" mnemonicParsing="false" onAction="#onViewMonthHandler" text="View Month" toggleGroup="$tgroup" />
+      <RadioButton fx:id="ViewAll" layoutX="295.0" layoutY="140.0" mnemonicParsing="false" onAction="#onViewAllHandler" text="View All" toggleGroup="$tgroup" />
       <BorderPane layoutX="496.0" layoutY="51.0" prefHeight="71.0" prefWidth="344.0" style="-fx-border-color: black;">
          <left>
             <Button fx:id="ReportsButton" mnemonicParsing="false" onAction="#onReportsHandler" text="Customer Report" BorderPane.alignment="CENTER" />

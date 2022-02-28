@@ -14,9 +14,7 @@ import model.*;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.LocalTime;
+import java.time.*;
 import java.util.ResourceBundle;
 
 /**
@@ -46,8 +44,8 @@ public class AddAppointmentController implements Initializable {
     private ObservableList<Contact> contactsList = ContactDAOImpl.getAllContacts();
 
     /**
-     *
-     * @param actionEvent
+     * This is used to add an appointment
+     * @param actionEvent on click of the "Add appointment" button
      * @throws SQLException
      */
     public void onAddAppointmentHandler(ActionEvent actionEvent) throws SQLException, IOException {
@@ -85,12 +83,27 @@ public class AddAppointmentController implements Initializable {
             String createdBy = LoginController.getLoggedInUser().getUsername();
             LocalDateTime createDate = LocalDateTime.now();
 
-            Boolean appointmentOverlap = AppointmentDAOImpl.appointmentOverlap(startDateTime, endDateTime);
+            ZonedDateTime endDateTimeZoned = endDateTime.atZone(ZoneId.systemDefault());
+            ZonedDateTime zEndDateTime = endDateTimeZoned.withZoneSameInstant(ZoneId.of("UTC"));
 
-            if(!appointmentOverlap) {
-                AppointmentDAOImpl.addAppointment(title, description, location, type, startDateTime, endDateTime, createDate, createdBy, createDate, createdBy, customerID, userID, contactID);
-            } else {
+            ZonedDateTime startDateTimeZoned = startDateTime.atZone(ZoneId.systemDefault());
+            ZonedDateTime zStartDateTime = startDateTimeZoned.withZoneSameInstant(ZoneId.of("UTC"));
+
+            ZonedDateTime createDateZoned = createDate.atZone(ZoneId.systemDefault());
+            ZonedDateTime zCreateDate = createDateZoned.withZoneSameInstant(ZoneId.of("UTC"));
+
+            Boolean appointmentOverlap = AppointmentDAOImpl.appointmentOverlap(startDateTime, endDateTime);
+            Boolean appointmentDuringHours = AppointmentDAOImpl.appointmentDuringHours(startDateTime, endDateTime);
+
+
+            if(!appointmentOverlap && appointmentDuringHours) {
+                AppointmentDAOImpl.addAppointment(title, description, location, type, zStartDateTime, zEndDateTime, zCreateDate, createdBy, zCreateDate, createdBy, customerID, userID, contactID);
+            } else if(appointmentOverlap) {
                 Alert alert = new Alert(Alert.AlertType.ERROR, "This appointment would overlap with another appointment.  Please change the dates and time.");
+                alert.showAndWait();
+                return;
+            } else {
+                Alert alert = new Alert(Alert.AlertType.ERROR, "This appointment is outside of business hours.");
                 alert.showAndWait();
                 return;
             }
@@ -119,8 +132,8 @@ public class AddAppointmentController implements Initializable {
     }
 
     /**
-     *
-     * @param actionEvent
+     * This is a way to cancel adding an appointment.  Will change the scene to appointment view.
+     * @param actionEvent the action event of clicking "Cancel" button
      * @throws IOException
      */
     public void onCancelHandler(ActionEvent actionEvent) throws IOException {
@@ -143,7 +156,7 @@ public class AddAppointmentController implements Initializable {
 
 
     /**
-     *
+     * This initializes the scene
      * @param url
      * @param resourceBundle
      */

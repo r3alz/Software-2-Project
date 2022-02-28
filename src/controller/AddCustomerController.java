@@ -21,6 +21,8 @@ import java.sql.Date;
 import java.sql.SQLException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
 import java.util.ResourceBundle;
 
 /**
@@ -42,8 +44,8 @@ public class AddCustomerController implements Initializable {
     private ObservableList<model.Country> countriesList = CountryDAOImpl.getAllCountries();
 
     /**
-     *
-     * @param actionEvent
+     * This is used to add a Customer
+     * @param actionEvent on click of the "Add Customer" button
      * @throws SQLException
      * @throws IOException
      */
@@ -57,6 +59,9 @@ public class AddCustomerController implements Initializable {
             String createdBy = LoginController.getLoggedInUser().getUsername();
             LocalDateTime createDate = LocalDateTime.now();
             int divisionID = d.getDivisionID();
+
+            ZonedDateTime createDateZoned = createDate.atZone(ZoneId.systemDefault());
+            ZonedDateTime zCreateDate = createDateZoned.withZoneSameInstant(ZoneId.of("UTC"));
 
             if(customerName.isEmpty()) {
                 Alert alert = new Alert(Alert.AlertType.ERROR, "Please enter a name in the Customer Name field");
@@ -88,7 +93,8 @@ public class AddCustomerController implements Initializable {
                 return;
             }
 
-            CustomerDAOImpl.addCustomer(customerName, divisionID, address, postalCode, phoneNumber, createDate, createdBy, createDate, createdBy);
+            CustomerDAOImpl.addCustomer(customerName, divisionID, address, postalCode, phoneNumber, zCreateDate, createdBy, zCreateDate, createdBy);
+
         } catch (Exception e) {
             Alert alert = new Alert(Alert.AlertType.ERROR, "Please fill in each field with a proper value");
             alert.showAndWait();
@@ -113,7 +119,7 @@ public class AddCustomerController implements Initializable {
     }
 
     /**
-     *
+     * This initialized the Add Customer scene
      * @param url
      * @param resourceBundle
      */
@@ -124,28 +130,26 @@ public class AddCustomerController implements Initializable {
     }
 
     /**
-     *
-     * @param actionEvent
+     * This will be used when a country is selected.  It will set the states combobox value to be only states that have the same countryID as selected country
+     * .forEach lambda is used in this method since it iterates efficiently
+     * @param actionEvent on select of a country from the Country combobox
      */
     public void onCountryHandler(ActionEvent actionEvent) {
         Country selc = (Country) CountryCombo.getSelectionModel().getSelectedItem();
         ObservableList<Division> tempList = FXCollections.observableArrayList();
+        // .forEach lambda is used here since it iterates efficiently
         statesList.forEach(d -> {
             if (selc.getCountryID() == d.getCountryID()) {
                 tempList.add(d);
             }
         });
-/*        for(Division d: statesList) {
-            if (selc.getCountryID() == d.getCountryID()) {
-                tempList.add(d);
-            }
-        }*/
+
         StateCombo.setItems(tempList);
     }
 
     /**
-     *
-     * @param actionEvent
+     * This will cancel adding a customer and will change the scene to customer view
+     * @param actionEvent on click of the Cancel button
      * @throws IOException
      */
     public void onCancelHandler(ActionEvent actionEvent) throws IOException {

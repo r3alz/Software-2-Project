@@ -9,6 +9,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDateTime;
+import java.time.ZonedDateTime;
 
 /**
  * Created by Chris Ortiz
@@ -33,6 +34,12 @@ public class CustomerDAOImpl {
             ResultSet rs = ps.executeQuery();
 
             while(rs.next()) {
+                String country = "";
+                String division = "";
+
+                ObservableList<Division> divisionList = DivisionDAOImpl.getAllDivisions();
+                ObservableList<Country> countryList = CountryDAOImpl.getAllCountries();
+
                 int customerID = rs.getInt("Customer_ID");
                 String customerName = rs.getString("Customer_Name");
                 int divisionID = rs.getInt("Division_ID");
@@ -44,7 +51,18 @@ public class CustomerDAOImpl {
                 Date lastUpdate = rs.getDate("Last_Update");
                 String lastUpdatedBy = rs.getString("Last_Updated_By");
 
-                Customer c = new Customer(customerID, customerName, divisionID, address, postalCode, phone, createDate, createdBy, lastUpdate, lastUpdatedBy);
+                for(Division d: divisionList) {
+                    if(divisionID == d.getDivisionID()) {
+                        division = d.getDivision();
+                        for(Country c: countryList) {
+                            if(d.getCountryID() == c.getCountryID()) {
+                                country = c.getCountry();
+                            }
+                        }
+                    }
+                }
+
+                Customer c = new Customer(customerID, customerName, divisionID, address, postalCode, phone, createDate, createdBy, lastUpdate, lastUpdatedBy, division, country);
                 cList.add(c);
             }
 
@@ -68,7 +86,7 @@ public class CustomerDAOImpl {
      * @param lastUpdatedBy to add to the Last_Updated_By column
      * @throws SQLException
      */
-    public static void addCustomer(String customerName, int divisionID, String address, String postalCode, String phone, LocalDateTime createDate, String createdBy, LocalDateTime lastUpdate, String lastUpdatedBy) throws SQLException {
+    public static void addCustomer(String customerName, int divisionID, String address, String postalCode, String phone, ZonedDateTime createDate, String createdBy, ZonedDateTime lastUpdate, String lastUpdatedBy) throws SQLException {
         String sql = "INSERT INTO customers (Customer_Name, Address, Postal_Code, Phone, Create_Date, Created_By, Last_Update, Last_Updated_By, Division_ID)  VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
         PreparedStatement ps = JDBC.getConnection().prepareStatement(sql);
         ps.setString(1, customerName);
@@ -106,7 +124,7 @@ public class CustomerDAOImpl {
      * @param divisionID divisionID to update Division_ID column
      * @throws SQLException
      */
-    public static void updateCustomer(int customerID, String customerName, String address, String postalCode, String phone, LocalDateTime lastUpdate, String lastUpdatedBy, int divisionID) throws SQLException {
+    public static void updateCustomer(int customerID, String customerName, String address, String postalCode, String phone, ZonedDateTime lastUpdate, String lastUpdatedBy, int divisionID) throws SQLException {
         String sql = "Update customers SET Customer_Name = ?,Address = ?,Postal_Code = ?, Phone = ?, Last_Update = ?, Last_Updated_By = ?, Division_ID = ? WHERE Customer_ID = " + customerID;
         PreparedStatement ps = JDBC.getConnection().prepareStatement(sql);
         ps.setString(1, customerName);

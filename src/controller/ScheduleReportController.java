@@ -19,6 +19,8 @@ import java.net.URL;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.ResourceBundle;
@@ -39,7 +41,7 @@ public class ScheduleReportController implements Initializable {
     public TableView Reports2Table;
 
     /**
-     *
+     * This will initialize the scene
      * @param url
      * @param resourceBundle
      */
@@ -56,7 +58,7 @@ public class ScheduleReportController implements Initializable {
         CustomerID.setCellValueFactory(new MapValueFactory<>("customerID"));
 
         try{
-            String sql = "SELECT contacts.Contact_Name, appointments.Appointment_ID, appointments.Title, appointments.Type, appointments.Description, appointments.Start, appointments.End, appointments.Customer_ID FROM appointments INNER JOIN contacts ON contacts.Contact_ID = appointments.Contact_ID";
+            String sql = "SELECT contacts.Contact_Name, appointments.Appointment_ID, appointments.Title, appointments.Type, appointments.Description, appointments.Start, appointments.End, appointments.Customer_ID FROM appointments JOIN contacts ON contacts.Contact_ID = appointments.Contact_ID ORDER BY contacts.Contact_ID";
 
             PreparedStatement ps = JDBC.getConnection().prepareStatement(sql);
 
@@ -69,8 +71,8 @@ public class ScheduleReportController implements Initializable {
                 String title = rs.getString("Title");
                 String type = rs.getString("Type");
                 String description = rs.getString("Description");
-                String start = rs.getString("Start");
-                String end = rs.getString("End");
+                LocalDateTime start = rs.getTimestamp("Start").toLocalDateTime();
+                LocalDateTime end = rs.getTimestamp("End").toLocalDateTime();
                 String customerID = rs.getString("Customer_ID");
 
                 item.put("contactName", contactName);
@@ -90,8 +92,8 @@ public class ScheduleReportController implements Initializable {
     }
 
     /**
-     *
-     * @param actionEvent
+     * This will take you back to the appointment view
+     * @param actionEvent on click of the back button
      * @throws IOException
      */
     public void onBackHandler(ActionEvent actionEvent) throws IOException {
