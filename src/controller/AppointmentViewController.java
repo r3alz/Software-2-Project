@@ -207,7 +207,9 @@ public class AppointmentViewController implements Initializable {
         int wom = date.get(weekOfMonth);
         Month month = date.getMonth();
         while (date.isBefore(end)) {
-            // .forEach lambda is used here since it iterates efficiently
+            /**
+             * .forEach lambda is used here since it iterates efficiently
+             */
             appointments.forEach(a -> {
                 LocalDateTime testDateTime = a.getStartDateTime();
                 LocalDate testDate = testDateTime.toLocalDate();
@@ -238,7 +240,9 @@ public class AppointmentViewController implements Initializable {
         List<LocalDate> dates = new ArrayList<>();
         while (date.isBefore(end)) {
             Month month = date.getMonth();
-            // .forEach lambda is used here since it iterates efficiently
+            /**
+             * .forEach lambda is used here since it iterates efficiently
+             */
             appointments.forEach(a -> {
                 LocalDateTime testDateTime = a.getStartDateTime();
                 Month dateTimeMonth = testDateTime.getMonth();

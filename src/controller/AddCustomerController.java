@@ -137,7 +137,9 @@ public class AddCustomerController implements Initializable {
     public void onCountryHandler(ActionEvent actionEvent) {
         Country selc = (Country) CountryCombo.getSelectionModel().getSelectedItem();
         ObservableList<Division> tempList = FXCollections.observableArrayList();
-        // .forEach lambda is used here since it iterates efficiently
+        /**
+         * .forEach lambda is used here since it iterates efficiently
+         */
         statesList.forEach(d -> {
             if (selc.getCountryID() == d.getCountryID()) {
                 tempList.add(d);

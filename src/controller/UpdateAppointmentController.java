@@ -166,7 +166,9 @@ public class UpdateAppointmentController implements Initializable {
         Minutes.setValue(appointment.getStartDateTime().getMinute());
         EndMinutes.setValue(appointment.getEndDateTime().getMinute());
 
-        // .forEach lambda is used here since it iterates efficiently
+        /**
+         * .forEach lambda is used here since it iterates efficiently
+         */
         contactsList.forEach(c -> {
             if(c.getContactID() == appointment.getContactID()) {
                 ContactBox.setValue(c);
